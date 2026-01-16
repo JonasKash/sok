@@ -16,54 +16,122 @@ export const analyzeBusiness = async (data: BusinessData): Promise<AnalysisResul
   const ai = new GoogleGenAI({ apiKey });
 
   try {
+    console.log('Starting real API analysis for:', data);
+    
+    const searchQuery = `${data.category} em ${data.city}`;
     const prompt = `
-      Atue como um Auditor de SEO para Clínicas Odontológicas e Performance Web.
-      Analise a clínica: "${data.name}" (Especialidade: "${data.category}") em "${data.city}".
+Você é um auditor especializado em SEO local e análise de mercado odontológico.
 
-      TAREFAS:
-      1. Use o Google Search para encontrar o WEBSITE OFICIAL desta clínica.
-      2. Encontre os 3 principais concorrentes REAIS (Dentistas/Clínicas) no Local Pack.
-      3. Estime a saúde técnica do site.
-      4. Estime perda de receita baseada na população local e ticket médio odontológico.
+BUSQUE E RETORNE DADOS REAIS do Google Search e Google Maps para a busca: "${searchQuery}"
 
-      DADOS DE MERCADO (Estimativa Odontológica):
-      - Volume de Busca = População da cidade * 0.008 (nicho específico).
-      - Perda = (Volume * 0.07) * Ticket Médio (~R$ 450,00).
+INSTRUÇÕES CRÍTICAS:
+1. Use Google Search para encontrar empresas REAIS que aparecem no Local Pack do Google quando alguém busca "${searchQuery}"
+2. Use Google Maps para obter dados REAIS de concorrentes: nomes exatos, avaliações reais, número de reviews real, endereços reais
+3. NÃO invente dados. Use APENAS informações encontradas nas buscas reais
+4. Se encontrar a clínica "${data.name}", inclua informações reais sobre ela
+5. Liste os TOP 3-5 concorrentes REAIS que aparecem nas buscas, com dados EXATOS do Google Maps
 
-      RETORNO JSON OBRIGATÓRIO (Apenas JSON puro):
-      {
-        "score": number (0-100, Score GEO geral),
-        "monthlySearchVolume": number,
-        "estimatedLostRevenue": number,
-        "visibilityRank": "Invisível" | "Baixa" | "Média",
-        "competitorsCount": number,
-        "businessImage": "URL_IMAGEM_OU_NULL",
-        "websiteUrl": "URL_DO_SITE_OU_NULL",
-        "techScore": number (0-100, nota técnica),
-        "techIssues": ["Ex: Site lento", "Ex: Sem fotos de casos clínicos", "Ex: Perfil incompleto"],
-        "competitorsList": [
-           { 
-             "name": "Nome Concorrente", 
-             "rating": "4.9", 
-             "reviews": 150, 
-             "address": "Endereço curto",
-             "status": "Aberto agora" 
-           }
-        ]
-      }
-    `;
+RETORNE APENAS JSON válido (sem markdown, sem texto adicional):
+{
+  "score": number (0-100),
+  "monthlySearchVolume": number,
+  "estimatedLostRevenue": number,
+  "visibilityRank": "Invisível" | "Baixa" | "Média" | "Alta",
+  "competitorsCount": number,
+  "businessImage": "URL_OU_NULL",
+  "websiteUrl": "URL_OU_NULL",
+  "techScore": number (0-100),
+  "techIssues": ["problema1", "problema2"],
+  "competitorsList": [
+    {
+      "name": "NOME REAL DA EMPRESA",
+      "rating": "4.8",
+      "reviews": 150,
+      "address": "Endereço real",
+      "status": "Aberto agora" ou "Fechado"
+    }
+  ]
+}
+`;
 
+    console.log('Calling Gemini API with search grounding...');
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
-        // Enable both Search and Maps for accurate local results
-        tools: [{ googleSearch: {} }, { googleMaps: {} }], 
+        tools: [{ googleSearch: {} }, { googleMaps: {} }],
       },
     });
 
+    console.log('API Response received');
+    console.log('Grounding metadata:', response.candidates?.[0]?.groundingMetadata);
+
     let resultText = response.text;
-    if (!resultText) throw new Error("No data returned from AI");
+    if (!resultText) {
+      console.error("No text returned from AI");
+      throw new Error("No data returned from AI");
+    }
+
+    console.log('Raw response text:', resultText.substring(0, 500));
+
+    // Try to extract real competitors from grounding metadata first
+    let realCompetitors: Competitor[] = [];
+    const groundingMetadata = response.candidates?.[0]?.groundingMetadata;
+    
+    if (groundingMetadata?.groundingChunks) {
+      console.log('Found grounding chunks, extracting real data...');
+      const chunks = groundingMetadata.groundingChunks;
+      
+      // Try to extract business information from Google Maps chunks
+      chunks.forEach((chunk: any) => {
+        // Check for Google Maps data
+        if (chunk.googleMaps) {
+          const place = chunk.googleMaps;
+          if (place.name && place.name.toLowerCase() !== data.name.toLowerCase()) {
+            realCompetitors.push({
+              name: place.name,
+              rating: place.rating?.toString() || place.averageRating?.toString() || "4.5",
+              reviews: place.userRatingCount || place.reviewCount || 0,
+              address: place.formattedAddress || place.address || place.vicinity || "",
+              status: place.currentOpeningHours?.openNow ? "Aberto agora" : 
+                      place.openingHours?.openNow ? "Aberto agora" : "Fechado"
+            });
+          }
+        }
+        
+        // Also check web results for business listings
+        if (chunk.web && chunk.web.title) {
+          const title = chunk.web.title.toLowerCase();
+          // Look for business-like titles (not generic pages)
+          if ((title.includes(data.category.toLowerCase()) || title.includes('clínica') || title.includes('dentista')) &&
+              !title.includes('wikipedia') && !title.includes('blog') && !title.includes('notícia')) {
+            // Try to extract rating from snippet if available
+            const snippet = chunk.web.snippet || '';
+            const ratingMatch = snippet.match(/(\d+\.?\d*)\s*(estrelas?|stars?|rating)/i);
+            const reviewsMatch = snippet.match(/(\d+)\s*(avaliações?|reviews?|comentários?)/i);
+            
+            if (chunk.web.title.toLowerCase() !== data.name.toLowerCase()) {
+              realCompetitors.push({
+                name: chunk.web.title,
+                rating: ratingMatch ? ratingMatch[1] : "4.5",
+                reviews: reviewsMatch ? parseInt(reviewsMatch[1]) : 0,
+                address: data.city,
+                status: "Aberto agora"
+              });
+            }
+          }
+        }
+      });
+      
+      // Remove duplicates
+      const uniqueCompetitors = realCompetitors.filter((comp, index, self) =>
+        index === self.findIndex((c) => c.name.toLowerCase() === comp.name.toLowerCase())
+      );
+      
+      realCompetitors = uniqueCompetitors;
+      
+      console.log('Extracted real competitors from grounding:', realCompetitors.length);
+    }
 
     // Clean up markdown code blocks if present
     resultText = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -72,11 +140,31 @@ export const analyzeBusiness = async (data: BusinessData): Promise<AnalysisResul
     const end = resultText.lastIndexOf('}');
     
     if (start === -1 || end === -1) {
+        console.error("Could not find JSON in response");
         throw new Error("Could not parse JSON from response");
     }
     
     const jsonString = resultText.substring(start, end + 1);
-    const result = JSON.parse(jsonString) as Omit<AnalysisResult, 'sources'>;
+    let result: Omit<AnalysisResult, 'sources'>;
+    
+    try {
+      result = JSON.parse(jsonString);
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      throw new Error("Invalid JSON in response");
+    }
+
+    // Use real competitors from grounding if available, otherwise use AI response
+    if (realCompetitors.length > 0) {
+      console.log('Using real competitors from Google Maps:', realCompetitors);
+      result.competitorsList = realCompetitors.slice(0, 5); // Top 5
+      result.competitorsCount = realCompetitors.length;
+    } else if (!result.competitorsList || result.competitorsList.length === 0) {
+      console.warn('No competitors found, using fallback');
+      result.competitorsList = [];
+    } else {
+      console.log('Using competitors from AI response:', result.competitorsList.length);
+    }
 
     // Sanity Checks for Dental Niche
     if (result.estimatedLostRevenue > 80000) {
@@ -84,16 +172,24 @@ export const analyzeBusiness = async (data: BusinessData): Promise<AnalysisResul
     }
     
     // Fallbacks
-    if (!result.competitorsList) result.competitorsList = [];
+    if (!result.competitorsList || result.competitorsList.length === 0) {
+      console.warn('No competitors found, this might indicate API issue');
+    }
     if (!result.techIssues) result.techIssues = ["Ausência de dados estruturados para IA", "Carregamento lento de imagens"];
     if (result.techScore === undefined) result.techScore = 45;
 
     const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks
       ?.map((chunk: any) => ({
-        title: chunk.web?.title || 'Google Search',
-        uri: chunk.web?.uri
+        title: chunk.web?.title || chunk.googleMaps?.name || 'Google Search',
+        uri: chunk.web?.uri || chunk.googleMaps?.uri
       }))
       .filter((s: any) => s.uri) || [];
+
+    console.log('Final result:', {
+      competitorsCount: result.competitorsList?.length || 0,
+      hasRealData: realCompetitors.length > 0,
+      sourcesCount: sources.length
+    });
 
     return {
       ...result,
@@ -101,7 +197,8 @@ export const analyzeBusiness = async (data: BusinessData): Promise<AnalysisResul
     };
 
   } catch (error) {
-    console.error("Analysis failed, falling back to mock:", error);
+    console.error("Analysis failed, error details:", error);
+    console.error("Falling back to mock data");
     return mockAnalyze(data);
   }
 };
