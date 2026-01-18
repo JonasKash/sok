@@ -1,9 +1,13 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
   "functions": {
     "api/**/*.ts": {
-      "runtime": "@vercel/node@3.0.7"
+      "runtime": "@vercel/node@3.0.7",
+      "memory": 1024,
+      "maxDuration": 10
     }
-  }
+  },
+  "framework": null
 }
 
