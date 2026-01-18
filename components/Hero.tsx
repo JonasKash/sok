@@ -27,8 +27,8 @@ export const Hero: React.FC<HeroProps> = ({ onSubmit }) => {
 
       <nav className="w-full max-w-7xl mx-auto px-6 py-6 relative z-10 flex justify-between items-center">
         <div className="flex items-center gap-2">
-           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold font-display">G</div>
-           <span className="font-display font-bold text-slate-900 text-xl">GEO Check</span>
+           <img src="/lib/logo.png" alt="Avestra" className="h-8 w-8 object-contain" />
+           <span className="font-display font-bold text-slate-900 text-xl">Avestra</span>
         </div>
       </nav>
 

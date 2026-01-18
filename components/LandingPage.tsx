@@ -12,8 +12,7 @@ import {
   CheckCircle2,
   Users,
   Layers,
-  Search,
-  Github
+  Search
 } from 'lucide-react';
 import { AnimatedText } from './ui/AnimatedText';
 
@@ -32,8 +31,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-indigo-600 text-white p-1.5 rounded-lg font-bold font-display text-lg md:text-xl">G</div>
-            <span className="font-display font-bold text-lg md:text-xl text-slate-900">GeoBoost <span className="text-indigo-600 font-normal opacity-70 text-sm ml-1">Dental</span></span>
+            <img src="/lib/logo.png" alt="Avestra" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
+            <span className="font-display font-bold text-lg md:text-xl text-slate-900">Avestra</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
@@ -173,8 +172,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
                            </p>
                            {/* Rich Card */}
                            <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 flex gap-3 items-center">
-                              <div className="w-10 h-10 bg-indigo-100 rounded-md flex items-center justify-center text-indigo-600 font-bold">
-                                 LOGO
+                              <div className="w-10 h-10 bg-indigo-100 rounded-md flex items-center justify-center p-1">
+                                 <img src="/lib/logo.png" alt="Avestra" className="w-full h-full object-contain" />
                               </div>
                               <div>
                                  <div className="font-bold text-slate-900 text-sm">Sua Clínica Aqui</div>
@@ -412,25 +411,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
       <footer className="bg-slate-50 py-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-                <div className="bg-indigo-600 text-white p-1 rounded font-bold font-display text-sm">G</div>
+                <img src="/lib/logo.png" alt="Avestra" className="h-6 w-6 object-contain" />
                 <div>
-                   <span className="font-bold text-slate-900 block leading-none">GeoBoost Dental</span>
+                   <span className="font-bold text-slate-900 block leading-none">Avestra</span>
                    <span className="text-[10px] text-slate-400">AI Optimization Intelligence</span>
                 </div>
             </div>
             <div className="flex items-center gap-6">
-                <a 
-                  href="https://github.com/JonasKash/sok" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-slate-600 hover:text-indigo-600 transition-colors group"
-                  aria-label="GitHub Portfolio"
-                >
-                  <Github size={20} className="group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium hidden sm:inline">Portfolio</span>
-                </a>
                 <div className="text-slate-500 text-sm">
-                    © 2026 GeoBoost. Todos os direitos reservados.
+                    © 2026 Avestra. Todos os direitos reservados.
                 </div>
             </div>
         </div>

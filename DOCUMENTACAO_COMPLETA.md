@@ -1,8 +1,8 @@
-# 📚 Documentação Completa - GeoBoost Dental
+# 📚 Documentação Completa - Avestra
 
 **Versão:** 1.0  
 **Data:** Janeiro 2025  
-**Projeto:** GeoBoost Dental - Plataforma de Análise de Autoridade Digital para Clínicas Odontológicas
+**Projeto:** Avestra - Plataforma de Análise de Autoridade Digital para Clínicas Odontológicas
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## 🎯 Visão Geral
 
-O **GeoBoost Dental** é uma plataforma web que realiza análises de autoridade digital para clínicas odontológicas. O sistema utiliza inteligência artificial (Google Gemini) para analisar o posicionamento de clínicas em mecanismos de busca e modelos de linguagem, fornecendo diagnósticos detalhados sobre visibilidade online, concorrência e oportunidades de otimização.
+O **Avestra** é uma plataforma web que realiza análises de autoridade digital para clínicas odontológicas. O sistema utiliza inteligência artificial (Google Gemini) para analisar o posicionamento de clínicas em mecanismos de busca e modelos de linguagem, fornecendo diagnósticos detalhados sobre visibilidade online, concorrência e oportunidades de otimização.
 
 ### Objetivo Principal
 
@@ -206,7 +206,7 @@ O sistema atualmente utiliza uma **implementação mock** para geração do QR C
 ```typescript
 export const generatePixCode = async (amount: number): Promise<string> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913GeoRank Dental6008Sao Paulo62070503***6304E2CA";
+  return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913Avestra6008Sao Paulo62070503***6304E2CA";
 };
 ```
 
@@ -247,7 +247,7 @@ O projeto possui documentação completa para integração com Mercado Pago em `
 O código PIX retornado segue o padrão **EMV QR Code**:
 - Formato: String alfanumérica
 - Contém: Chave PIX, valor, beneficiário, cidade, etc.
-- Exemplo: `00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913GeoRank Dental6008Sao Paulo62070503***6304E2CA`
+- Exemplo: `00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913Avestra6008Sao Paulo62070503***6304E2CA`
 
 ---
 
@@ -380,7 +380,7 @@ const [userCity, setUserCity] = useState<string>('');
 **Seções do Dashboard**:
 
 1. **Header Fixo**
-   - Logo GeoBoost
+   - Logo Avestra
    - Nome da clínica analisada
 
 2. **Card: Pacientes Perdidos**

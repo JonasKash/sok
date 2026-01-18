@@ -62,14 +62,12 @@ export const AISimulation: React.FC<AISimulationProps> = ({ data, businessImage 
                         />
                     ) : null}
                     
-                    {/* Fallback Text "Sua Logo Aqui" */}
+                    {/* Fallback Logo Avestra */}
                     <div 
-                      className="w-full h-full flex items-center justify-center bg-slate-100 text-center p-1" 
+                      className="w-full h-full flex items-center justify-center bg-slate-100 p-1" 
                       style={{ display: businessImage ? 'none' : 'flex' }}
                     >
-                       <span className="text-[9px] md:text-[10px] font-bold text-slate-400 leading-none uppercase">
-                         Sua<br/>Clínica
-                       </span>
+                       <img src="/lib/logo.png" alt="Avestra" className="w-full h-full object-contain" />
                     </div>
                  </div>
 

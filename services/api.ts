@@ -243,5 +243,5 @@ const mockAnalyze = async (data: BusinessData): Promise<AnalysisResult> => {
 
 export const generatePixCode = async (amount: number): Promise<string> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913GeoRank Dental6008Sao Paulo62070503***6304E2CA";
+  return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913Avestra6008Sao Paulo62070503***6304E2CA";
 };
