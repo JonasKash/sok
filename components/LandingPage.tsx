@@ -31,7 +31,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/lib/logo.png" alt="Avestra" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
+            <img src="/logo.png" alt="Avestra" className="h-8 w-8 md:h-10 md:w-10 object-contain" />
             <span className="font-display font-bold text-lg md:text-xl text-slate-900">Avestra</span>
           </div>
           
@@ -173,7 +173,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
                            {/* Rich Card */}
                            <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 flex gap-3 items-center">
                               <div className="w-10 h-10 bg-indigo-100 rounded-md flex items-center justify-center p-1">
-                                 <img src="/lib/logo.png" alt="Avestra" className="w-full h-full object-contain" />
+                                 <img src="/logo.png" alt="Avestra" className="w-full h-full object-contain" />
                               </div>
                               <div>
                                  <div className="font-bold text-slate-900 text-sm">Sua Clínica Aqui</div>
@@ -411,7 +411,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
       <footer className="bg-slate-50 py-12 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-                <img src="/lib/logo.png" alt="Avestra" className="h-6 w-6 object-contain" />
+                <img src="/logo.png" alt="Avestra" className="h-6 w-6 object-contain" />
                 <div>
                    <span className="font-bold text-slate-900 block leading-none">Avestra</span>
                    <span className="text-[10px] text-slate-400">AI Optimization Intelligence</span>

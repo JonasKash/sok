@@ -41,7 +41,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
       <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/lib/logo.png" alt="Avestra" className="h-8 w-8 object-contain" />
+            <img src="/logo.png" alt="Avestra" className="h-8 w-8 object-contain" />
             <span className="font-bold text-slate-800 hidden sm:block">Avestra</span>
           </div>
           <div className="text-xs md:text-sm text-slate-500 font-medium truncate max-w-[200px] sm:max-w-none">

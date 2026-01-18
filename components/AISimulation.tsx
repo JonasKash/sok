@@ -67,7 +67,7 @@ export const AISimulation: React.FC<AISimulationProps> = ({ data, businessImage 
                       className="w-full h-full flex items-center justify-center bg-slate-100 p-1" 
                       style={{ display: businessImage ? 'none' : 'flex' }}
                     >
-                       <img src="/lib/logo.png" alt="Avestra" className="w-full h-full object-contain" />
+                       <img src="/logo.png" alt="Avestra" className="w-full h-full object-contain" />
                     </div>
                  </div>
 
