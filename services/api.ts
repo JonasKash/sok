@@ -273,15 +273,29 @@ import { PixPaymentData, CreatePixPaymentRequest } from '../types';
 export const createPixPayment = async (
   data: CreatePixPaymentRequest
 ): Promise<PixPaymentData> => {
-  // Em produção na Vercel, usa a mesma URL do frontend + /api
-  const apiUrl = import.meta.env.VITE_API_URL || 
-    (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000');
+  // Detectar URL da API
+  let apiUrl: string;
+  
+  if (import.meta.env.VITE_API_URL) {
+    // Se VITE_API_URL estiver configurado, usa ele
+    apiUrl = import.meta.env.VITE_API_URL;
+  } else if (typeof window !== 'undefined') {
+    // Em produção, usa a mesma origem + /api
+    apiUrl = window.location.origin + '/api';
+  } else {
+    // Fallback para desenvolvimento
+    apiUrl = 'http://localhost:3000/api';
+  }
+  
+  const endpoint = `${apiUrl}/create-pix-payment`;
+  
+  console.log('🔗 Tentando criar pagamento PIX:', {
+    apiUrl,
+    endpoint,
+    origin: typeof window !== 'undefined' ? window.location.origin : 'N/A'
+  });
   
   try {
-    const endpoint = apiUrl.includes('/api') 
-      ? `${apiUrl}/create-pix-payment` 
-      : `${apiUrl}/api/create-pix-payment`;
-    
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -304,9 +318,20 @@ export const createPixPayment = async (
     return await response.json();
   } catch (error) {
     // Se for erro de rede (backend não está rodando)
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      console.error('❌ Backend não está acessível. Verifique se está rodando em:', apiUrl);
-      throw new Error('Backend não está disponível. Verifique se o servidor está rodando.');
+    if (error instanceof TypeError && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
+      console.error('❌ Backend não está acessível:', {
+        endpoint,
+        apiUrl,
+        error: error.message,
+        origin: typeof window !== 'undefined' ? window.location.origin : 'N/A'
+      });
+      
+      // Em produção, dar mensagem mais específica
+      if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
+        throw new Error(`Não foi possível conectar ao servidor (${endpoint}). Verifique se as serverless functions foram deployadas na Vercel e se a variável MERCADOPAGO_ACCESS_TOKEN está configurada.`);
+      } else {
+        throw new Error('Backend não está disponível. Verifique se o servidor está rodando.');
+      }
     }
     
     console.error('Erro ao criar pagamento PIX:', error);
@@ -318,15 +343,20 @@ export const createPixPayment = async (
  * Verifica o status de um pagamento
  */
 export const checkPaymentStatus = async (paymentId: number): Promise<{ status: string }> => {
-  // Em produção na Vercel, usa a mesma URL do frontend + /api
-  const apiUrl = import.meta.env.VITE_API_URL || 
-    (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000');
+  // Detectar URL da API
+  let apiUrl: string;
+  
+  if (import.meta.env.VITE_API_URL) {
+    apiUrl = import.meta.env.VITE_API_URL;
+  } else if (typeof window !== 'undefined') {
+    apiUrl = window.location.origin + '/api';
+  } else {
+    apiUrl = 'http://localhost:3000/api';
+  }
+  
+  const endpoint = `${apiUrl}/payment-status/${paymentId}`;
   
   try {
-    const endpoint = apiUrl.includes('/api')
-      ? `${apiUrl}/payment-status/${paymentId}`
-      : `${apiUrl}/api/payment-status/${paymentId}`;
-    
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
