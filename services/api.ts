@@ -6,7 +6,7 @@ import { BusinessData, AnalysisResult, Competitor } from '../types';
  */
 export const analyzeBusiness = async (data: BusinessData): Promise<AnalysisResult> => {
   // Check for API key first before initializing the client
-  const apiKey = process.env.API_KEY;
+  const apiKey = import.meta.env.API_KEY || process.env.API_KEY;
   if (!apiKey) {
     console.warn("API Key missing in environment. Using realistic mock data.");
     return mockAnalyze(data);
@@ -149,8 +149,14 @@ RETORNE APENAS JSON válido (sem markdown, sem texto adicional):
     
     try {
       result = JSON.parse(jsonString);
+      console.log('JSON parsed successfully:', {
+        score: result.score,
+        monthlySearchVolume: result.monthlySearchVolume,
+        estimatedLostRevenue: result.estimatedLostRevenue
+      });
     } catch (parseError) {
       console.error("JSON parse error:", parseError);
+      console.error("Raw response text:", resultText.substring(0, 500));
       throw new Error("Invalid JSON in response");
     }
 
@@ -191,9 +197,27 @@ RETORNE APENAS JSON válido (sem markdown, sem texto adicional):
       sourcesCount: sources.length
     });
 
+    // Garantir que valores numéricos sempre existam
+    // Verificar se os valores são null, undefined ou NaN (não apenas 0)
+    const score = typeof result.score === 'number' && !isNaN(result.score) ? result.score : null;
+    const monthlySearchVolume = typeof result.monthlySearchVolume === 'number' && !isNaN(result.monthlySearchVolume) ? result.monthlySearchVolume : null;
+    const estimatedLostRevenue = typeof result.estimatedLostRevenue === 'number' && !isNaN(result.estimatedLostRevenue) ? result.estimatedLostRevenue : null;
+    
+    // Se os valores principais estiverem inválidos (null/undefined/NaN), usar mock
+    if (score === null || monthlySearchVolume === null || estimatedLostRevenue === null) {
+      console.warn('API retornou valores inválidos (null/undefined/NaN), usando mock data');
+      console.warn('Valores recebidos:', { score, monthlySearchVolume, estimatedLostRevenue });
+      return mockAnalyze(data);
+    }
+
     return {
       ...result,
-      sources
+      sources,
+      score: score,
+      monthlySearchVolume: monthlySearchVolume,
+      estimatedLostRevenue: estimatedLostRevenue,
+      competitorsCount: result.competitorsCount || 0,
+      techScore: result.techScore || 0,
     };
 
   } catch (error) {
@@ -241,7 +265,91 @@ const mockAnalyze = async (data: BusinessData): Promise<AnalysisResult> => {
   };
 };
 
+import { PixPaymentData, CreatePixPaymentRequest } from '../types';
+
+/**
+ * Cria um pagamento PIX via backend Mercado Pago
+ */
+export const createPixPayment = async (
+  data: CreatePixPaymentRequest
+): Promise<PixPaymentData> => {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  
+  try {
+    const response = await fetch(`${apiUrl}/api/create-pix-payment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = 'Erro ao criar pagamento PIX';
+      try {
+        const error = await response.json();
+        errorMessage = error.error || error.message || errorMessage;
+      } catch {
+        errorMessage = `Erro HTTP ${response.status}: ${response.statusText}`;
+      }
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    // Se for erro de rede (backend não está rodando)
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      console.error('❌ Backend não está acessível. Verifique se está rodando em:', apiUrl);
+      throw new Error('Backend não está disponível. Verifique se o servidor está rodando.');
+    }
+    
+    console.error('Erro ao criar pagamento PIX:', error);
+    throw error;
+  }
+};
+
+/**
+ * Verifica o status de um pagamento
+ */
+export const checkPaymentStatus = async (paymentId: number): Promise<{ status: string }> => {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  
+  try {
+    const response = await fetch(`${apiUrl}/api/payment-status/${paymentId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao verificar status do pagamento');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Erro ao verificar status:', error);
+    throw error;
+  }
+};
+
+/**
+ * Gera código PIX - Tenta usar API real, fallback para mock
+ */
 export const generatePixCode = async (amount: number): Promise<string> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913Avestra6008Sao Paulo62070503***6304E2CA";
+  try {
+    // Tenta criar pagamento real via backend
+    const payment = await createPixPayment({
+      transaction_amount: amount,
+      description: 'Relatório de Autoridade Digital - Avestra',
+    });
+
+    // Retorna o código PIX do pagamento criado
+    return payment.point_of_interaction?.transaction_data?.qr_code || '';
+  } catch (error) {
+    console.warn('Erro ao criar PIX real, usando mock:', error);
+    // Fallback para mock se backend não estiver disponível
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return "00020126360014BR.GOV.BCB.PIX0114+551199999999520400005303986540510.005802BR5913Avestra6008Sao Paulo62070503***6304E2CA";
+  }
 };

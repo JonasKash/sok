@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CheckCircle, Download, Mail, Share2 } from 'lucide-react';
+import { CheckCircle, MessageCircle } from 'lucide-react';
 import { trackingService } from '../services/tracking';
 
 export const ThankYouPage: React.FC = () => {
@@ -35,6 +35,20 @@ export const ThankYouPage: React.FC = () => {
     }
   }, []);
 
+  const handleWhatsAppClick = () => {
+    // Número do WhatsApp (formato: 5511999999999 - sem espaços, com código do país)
+    const phoneNumber = '5511999999999'; // ALTERE AQUI com seu número real
+    const message = encodeURIComponent('Olá! Acabei de comprar o relatório de autoridade digital. Como posso receber meu relatório?');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    
+    // Rastreia clique no WhatsApp
+    trackingService.trackEvent('whatsapp_click', {
+      source: 'thank_you_page'
+    });
+    
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center p-6">
       <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
@@ -50,23 +64,14 @@ export const ThankYouPage: React.FC = () => {
           Seu relatório completo está sendo preparado e será enviado em instantes.
         </p>
 
-        {/* Ações */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <button className="flex flex-col items-center gap-2 p-4 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-colors">
-            <Download className="text-indigo-600" size={24} />
-            <span className="text-sm font-semibold text-indigo-900">Baixar Relatório</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-            <Mail className="text-slate-600" size={24} />
-            <span className="text-sm font-semibold text-slate-900">Enviar por Email</span>
-          </button>
-
-          <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-            <Share2 className="text-slate-600" size={24} />
-            <span className="text-sm font-semibold text-slate-900">Compartilhar</span>
-          </button>
-        </div>
+        {/* Botão WhatsApp */}
+        <button
+          onClick={handleWhatsAppClick}
+          className="w-full max-w-md mx-auto bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group"
+        >
+          <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
+          <span className="text-lg">Chamar no WhatsApp</span>
+        </button>
       </div>
     </div>
   );

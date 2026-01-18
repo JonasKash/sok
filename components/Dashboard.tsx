@@ -20,14 +20,23 @@ interface DashboardProps {
 export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Valores seguros com fallback
+  const monthlySearchVolume = results.monthlySearchVolume || 0;
+  const estimatedLostRevenue = results.estimatedLostRevenue || 0;
+  const score = results.score || 0;
+
   const chartData = [
-    { name: 'Pacientes Atuais', value: Math.round(results.monthlySearchVolume * 0.02), color: '#94a3b8' },
-    { name: 'Potencial', value: results.monthlySearchVolume, color: '#4f46e5' },
+    { name: 'Pacientes Atuais', value: Math.round(monthlySearchVolume * 0.02), color: '#94a3b8' },
+    { name: 'Potencial', value: monthlySearchVolume, color: '#4f46e5' },
   ];
 
   // Cálculo reverso para explicação
-  const ticketMedioEstimado = Math.round(results.estimatedLostRevenue / (results.monthlySearchVolume * 0.07));
-  const pacientesPerdidos = Math.round(results.estimatedLostRevenue / ticketMedioEstimado);
+  const ticketMedioEstimado = monthlySearchVolume > 0 
+    ? Math.round(estimatedLostRevenue / (monthlySearchVolume * 0.07)) 
+    : 0;
+  const pacientesPerdidos = ticketMedioEstimado > 0 
+    ? Math.round(estimatedLostRevenue / ticketMedioEstimado) 
+    : 0;
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600 bg-green-50 border-green-200';
@@ -67,7 +76,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                 <div className="bg-white px-4 py-2 md:px-6 md:py-3 rounded-xl shadow-sm border border-red-100 w-full md:w-auto text-right md:text-left">
                     <span className="block text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Perda estimada de faturamento</span>
                     <span className="text-xl md:text-3xl font-display font-black text-slate-900 block md:inline">
-                        {results.estimatedLostRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                        {estimatedLostRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                     <span className="text-[10px] md:text-xs text-red-500 font-bold block md:inline md:ml-1">/mês</span>
                 </div>
@@ -85,11 +94,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                     <div className="grid grid-cols-2 gap-4">
                          <div>
                             <span className="text-slate-400 text-xs font-bold uppercase">Volume de Busca</span>
-                            <div className="text-lg md:text-xl font-bold text-slate-800">{results.monthlySearchVolume}</div>
+                            <div className="text-lg md:text-xl font-bold text-slate-800">{monthlySearchVolume}</div>
                          </div>
                          <div>
                             <span className="text-slate-400 text-xs font-bold uppercase">Score GEO</span>
-                            <div className="text-lg md:text-xl font-bold text-red-600">{results.score}/100</div>
+                            <div className="text-lg md:text-xl font-bold text-red-600">{score}/100</div>
                          </div>
                     </div>
                 </div>
@@ -258,7 +267,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                     <div className="relative pl-4 border-l-2 border-slate-200">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block mb-1">Passo 1: Demanda</span>
                         <div className="text-slate-800 font-semibold text-sm mb-1">
-                            {results.monthlySearchVolume} pessoas/mês
+                            {monthlySearchVolume} pessoas/mês
                         </div>
                         <p className="text-xs text-slate-500 leading-snug">
                             Buscam ativamente por "{businessData.category}" na região de {businessData.city}.

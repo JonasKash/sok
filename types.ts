@@ -28,3 +28,29 @@ export interface AnalysisResult {
 }
 
 export type ViewState = 'hero' | 'analyzing' | 'dashboard';
+
+// Mercado Pago Interfaces
+export interface PixPaymentData {
+  id: number;
+  status: string;
+  status_detail: string;
+  point_of_interaction: {
+    transaction_data: {
+      qr_code: string;
+      qr_code_base64: string;
+      ticket_url: string;
+    };
+  };
+  date_created?: string;
+  date_of_expiration?: string;
+}
+
+export interface CreatePixPaymentRequest {
+  transaction_amount: number;
+  description?: string;
+  payer?: {
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+  };
+}

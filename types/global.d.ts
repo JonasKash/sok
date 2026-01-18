@@ -9,7 +9,9 @@ interface ImportMetaEnv {
   readonly VITE_FACEBOOK_PIXEL_ID?: string;
   readonly VITE_FACEBOOK_ACCESS_TOKEN?: string;
   readonly VITE_WEBHOOK_URL?: string;
+  readonly VITE_API_URL?: string;
   readonly API_KEY?: string;
+  readonly VITE_API_KEY?: string;
 }
 
 interface ImportMeta {
