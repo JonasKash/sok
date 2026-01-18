@@ -79,3 +79,4 @@ Use o Access Token de **TEST** para testar sem cobranças reais.
 
 Cartões de teste: https://www.mercadopago.com.br/developers/pt/docs/checkout-api/testing
 
+

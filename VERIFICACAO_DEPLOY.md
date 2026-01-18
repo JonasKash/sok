@@ -117,3 +117,4 @@ fetch('/api/health')
 **Se funcionar:** O endpoint está acessível
 **Se falhar:** Verifique os logs de erro
 
+

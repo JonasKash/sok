@@ -84,3 +84,4 @@ npm run dev
 - **Produção**: Use Access Token de PRODUCTION
 - **Nunca** commite o arquivo `.env` com tokens reais
 
+

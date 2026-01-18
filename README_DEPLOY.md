@@ -97,3 +97,4 @@ Isso simula o ambiente Vercel localmente.
 - ✅ Custo baseado em uso
 - ⚠️ Primeira requisição pode ter cold start (2-3 segundos)
 
+

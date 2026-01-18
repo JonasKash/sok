@@ -39,3 +39,4 @@ Após o redeploy, verifique:
 - A Vercel pode estar usando uma versão padrão mais nova
 - Após configurar, todos os novos deploys usarão Node.js 18.x
 
+

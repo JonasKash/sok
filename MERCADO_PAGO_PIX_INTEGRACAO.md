@@ -1047,3 +1047,4 @@ Após implementar a integração básica, considere:
 **Última atualização**: 2025-01-18  
 **Versão**: 1.0
 
+

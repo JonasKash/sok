@@ -86,3 +86,4 @@ VITE_API_URL=https://seu-backend.com
 - Use variáveis de ambiente no servidor de produção
 - O Access Token deve ser mantido em segredo
 
+
