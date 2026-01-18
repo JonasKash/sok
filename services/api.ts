@@ -273,10 +273,16 @@ import { PixPaymentData, CreatePixPaymentRequest } from '../types';
 export const createPixPayment = async (
   data: CreatePixPaymentRequest
 ): Promise<PixPaymentData> => {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  // Em produção na Vercel, usa a mesma URL do frontend + /api
+  const apiUrl = import.meta.env.VITE_API_URL || 
+    (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000');
   
   try {
-    const response = await fetch(`${apiUrl}/api/create-pix-payment`, {
+    const endpoint = apiUrl.includes('/api') 
+      ? `${apiUrl}/create-pix-payment` 
+      : `${apiUrl}/api/create-pix-payment`;
+    
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -312,10 +318,16 @@ export const createPixPayment = async (
  * Verifica o status de um pagamento
  */
 export const checkPaymentStatus = async (paymentId: number): Promise<{ status: string }> => {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  // Em produção na Vercel, usa a mesma URL do frontend + /api
+  const apiUrl = import.meta.env.VITE_API_URL || 
+    (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000');
   
   try {
-    const response = await fetch(`${apiUrl}/api/payment-status/${paymentId}`, {
+    const endpoint = apiUrl.includes('/api')
+      ? `${apiUrl}/payment-status/${paymentId}`
+      : `${apiUrl}/api/payment-status/${paymentId}`;
+    
+    const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
