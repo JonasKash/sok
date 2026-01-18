@@ -10,6 +10,7 @@ import { BusinessData, AnalysisResult } from '../types';
 import { AISimulation } from './AISimulation';
 import { GoogleSearchSimulation } from './GoogleSearchSimulation';
 import { PaymentModal } from './PaymentModal';
+import { trackingService } from '../services/tracking';
 
 interface DashboardProps {
   businessData: BusinessData;

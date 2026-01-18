@@ -40,35 +40,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
             <a href="#futuro" className="hover:text-indigo-600 transition-colors">Pacientes & IA</a>
             <a href="#geo" className="hover:text-indigo-600 transition-colors">GEO Odontológico</a>
             <a href="#implementacao" className="hover:text-indigo-600 transition-colors">Implementação</a>
-            <a 
-              href="https://github.com/JonasKash/sok" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors"
-              aria-label="GitHub Portfolio"
-            >
-              <Github size={18} />
-              <span>Portfolio</span>
-            </a>
           </div>
 
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://github.com/JonasKash/sok" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="md:hidden text-slate-600 hover:text-indigo-600 transition-colors"
-              aria-label="GitHub Portfolio"
-            >
-              <Github size={20} />
-            </a>
-            <button 
-              onClick={onOpenForm}
-              className="bg-indigo-600 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full font-semibold text-xs md:text-sm hover:bg-indigo-700 transition-all shadow-md shadow-indigo-200"
-            >
-              Analisar minha clínica
-            </button>
-          </div>
+          <button 
+            onClick={onOpenForm}
+            className="bg-indigo-600 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full font-semibold text-xs md:text-sm hover:bg-indigo-700 transition-all shadow-md shadow-indigo-200"
+          >
+            Analisar minha clínica
+          </button>
         </div>
       </nav>
 

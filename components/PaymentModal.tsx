@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X, Copy, CheckCircle, Smartphone } from 'lucide-react';
 import { generatePixCode } from '../services/api';
+import { trackingService } from '../services/tracking';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface PaymentModalProps {
 export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, price }) => {
   const [pixCode, setPixCode] = useState<string>('');
   const [copied, setCopied] = useState(false);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
   useEffect(() => {
     if (isOpen && !pixCode) {
@@ -22,6 +24,33 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, pri
     navigator.clipboard.writeText(pixCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handlePaymentConfirmed = async () => {
+    const leadId = trackingService.getLeadId();
+    const utms = trackingService.getUTMs();
+    
+    // Rastreia confirmação de pagamento
+    await trackingService.trackPaymentConfirmed(price, `payment_${Date.now()}`);
+
+    // Prepara query params para página de agradecimento
+    const queryParams = new URLSearchParams();
+    
+    Object.entries(utms).forEach(([key, value]) => {
+      if (value) queryParams.append(key, value);
+    });
+    
+    if (leadId) {
+      queryParams.append('lead_id', leadId);
+    }
+    
+    queryParams.append('session_id', trackingService.getSessionId());
+    queryParams.append('payment_amount', price.toString());
+    queryParams.append('payment_method', 'pix');
+    queryParams.append('timestamp', new Date().toISOString());
+    
+    // Redireciona para página de agradecimento
+    window.location.href = `/obrigado?${queryParams.toString()}`;
   };
 
   if (!isOpen) return null;
@@ -83,6 +112,16 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, pri
           <p className="mt-4 text-xs text-slate-400">
             Liberação imediata do PDF após confirmação.
           </p>
+
+          {/* Botão de simulação de pagamento (para desenvolvimento) */}
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              onClick={handlePaymentConfirmed}
+              className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors"
+            >
+              Simular Pagamento Confirmado (Dev)
+            </button>
+          )}
         </div>
         
         <div className="bg-slate-50 px-8 py-4 border-t border-slate-100 text-center">
