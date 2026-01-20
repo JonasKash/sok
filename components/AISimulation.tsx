@@ -87,7 +87,7 @@ export const AISimulation: React.FC<AISimulationProps> = ({ data, businessImage 
                                 console.log('🔄 Mostrando fallback Avestra');
                               }
                             }}
-                            onLoad={() => {
+                            onLoad={(e) => {
                               console.log('✅ Logo da empresa carregada com sucesso!');
                               console.log('🖼️ URL da logo:', businessImage);
                               const fallback = (e.target as HTMLImageElement).parentElement?.querySelector('.fallback-logo') as HTMLElement;
