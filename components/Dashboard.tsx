@@ -10,6 +10,7 @@ import { BusinessData, AnalysisResult } from '../types';
 import { AISimulation } from './AISimulation';
 import { GoogleSearchSimulation } from './GoogleSearchSimulation';
 import { PaymentModal } from './PaymentModal';
+import { CheckoutFormModal } from './CheckoutFormModal';
 import { trackingService } from '../services/tracking';
 
 interface DashboardProps {
@@ -18,6 +19,7 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) => {
+  const [isCheckoutFormOpen, setIsCheckoutFormOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Valores seguros com fallback
@@ -239,7 +241,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                     </p>
 
                     <button 
-                        onClick={() => setIsModalOpen(true)}
+                        onClick={async () => {
+                          // Rastreia clique no checkout
+                          await trackingService.trackCheckoutClick(29.90);
+                          setIsCheckoutFormOpen(true);
+                        }}
                         className="w-full bg-indigo-600 text-white py-3 md:py-4 rounded-xl font-bold text-base md:text-lg hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-200 transition-all flex items-center justify-center gap-2 group"
                     >
                         DESBLOQUEAR POR R$ 29,90
@@ -330,6 +336,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
         )}
 
       </main>
+
+      <CheckoutFormModal
+        isOpen={isCheckoutFormOpen}
+        onClose={() => setIsCheckoutFormOpen(false)}
+        onContinue={(whatsapp) => {
+          setIsCheckoutFormOpen(false);
+          setIsModalOpen(true);
+        }}
+        businessData={businessData}
+      />
 
       <PaymentModal 
         isOpen={isModalOpen} 

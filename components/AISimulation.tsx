@@ -8,6 +8,25 @@ interface AISimulationProps {
 }
 
 export const AISimulation: React.FC<AISimulationProps> = ({ data, businessImage }) => {
+  // Log para debug
+  React.useEffect(() => {
+    console.log('🔍 AISimulation renderizado com:', {
+      empresa: data.name,
+      businessImage: businessImage || 'NÃO FORNECIDA',
+      categoria: data.category,
+      cidade: data.city
+    });
+    
+    if (businessImage) {
+      console.log('🖼️ Logo da empresa recebida no componente:', businessImage);
+      console.log('📝 Esta logo será exibida na simulação de IA');
+    } else {
+      console.warn('⚠️ Nenhuma logo da empresa recebida');
+      console.warn('📝 Será usado fallback (logo Avestra)');
+      console.warn('🔧 Verifique se a API está retornando businessImage corretamente');
+    }
+  }, [businessImage, data.name]);
+
   return (
     <div className="w-full bg-white rounded-2xl border border-indigo-100 shadow-sm overflow-hidden my-6 md:my-8">
       <div className="bg-slate-50 px-4 md:px-6 py-3 md:py-4 border-b border-slate-100 flex items-center justify-between">
@@ -50,25 +69,49 @@ export const AISimulation: React.FC<AISimulationProps> = ({ data, businessImage 
                  {/* Business Image/Logo */}
                  <div className="h-12 w-12 md:h-14 md:w-14 rounded-lg flex-shrink-0 overflow-hidden bg-white border border-slate-200 flex items-center justify-center group relative">
                     {businessImage ? (
-                        <img 
-                          src={businessImage} 
-                          alt={data.name} 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                            const sibling = (e.target as HTMLImageElement).nextSibling as HTMLElement;
-                            if (sibling) sibling.style.display = 'flex';
-                          }}
-                        />
-                    ) : null}
-                    
-                    {/* Fallback Logo Avestra */}
-                    <div 
-                      className="w-full h-full flex items-center justify-center bg-slate-100 p-1" 
-                      style={{ display: businessImage ? 'none' : 'flex' }}
-                    >
-                       <img src="/logo.png" alt="Avestra" className="w-full h-full object-contain" />
-                    </div>
+                        <>
+                          <img 
+                            src={businessImage} 
+                            alt={`Logo ${data.name}`}
+                            className="w-full h-full object-cover"
+                            style={{ display: 'block' }}
+                            crossOrigin="anonymous"
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              console.error('❌ Erro ao carregar logo da empresa:', businessImage);
+                              console.error('📝 URL da imagem que falhou:', businessImage);
+                              (e.target as HTMLImageElement).style.display = 'none';
+                              const fallback = (e.target as HTMLImageElement).parentElement?.querySelector('.fallback-logo') as HTMLElement;
+                              if (fallback) {
+                                fallback.style.display = 'flex';
+                                console.log('🔄 Mostrando fallback Avestra');
+                              }
+                            }}
+                            onLoad={() => {
+                              console.log('✅ Logo da empresa carregada com sucesso!');
+                              console.log('🖼️ URL da logo:', businessImage);
+                              const fallback = (e.target as HTMLImageElement).parentElement?.querySelector('.fallback-logo') as HTMLElement;
+                              if (fallback) {
+                                fallback.style.display = 'none';
+                              }
+                            }}
+                          />
+                          {/* Fallback Logo Avestra (escondido quando imagem carrega) */}
+                          <div 
+                            className="fallback-logo w-full h-full flex items-center justify-center bg-slate-100 p-1" 
+                            style={{ display: 'none', position: 'absolute', top: 0, left: 0 }}
+                          >
+                            <img src="/logo.png" alt="Avestra" className="w-full h-full object-contain" />
+                          </div>
+                        </>
+                    ) : (
+                      // Se não tiver businessImage, mostra fallback
+                      <div 
+                        className="fallback-logo w-full h-full flex items-center justify-center bg-slate-100 p-1"
+                      >
+                        <img src="/logo.png" alt="Avestra" className="w-full h-full object-contain" />
+                      </div>
+                    )}
                  </div>
 
                  <div>
