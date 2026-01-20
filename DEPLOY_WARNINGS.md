@@ -60,3 +60,4 @@ Os warnings vêm de dependências antigas que não controlamos diretamente. Para
 
 **Os warnings são informativos e não afetam o funcionamento do deploy.** Se o build completar com sucesso na Vercel, tudo está funcionando corretamente! ✅
 
+

@@ -232,3 +232,4 @@ App.tsx                            # Atualizado com rotas e tracking
 **Versão**: 1.0
 
 
+

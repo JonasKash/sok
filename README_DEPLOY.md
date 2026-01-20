@@ -98,3 +98,4 @@ Isso simula o ambiente Vercel localmente.
 - ⚠️ Primeira requisição pode ter cold start (2-3 segundos)
 
 
+
