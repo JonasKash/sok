@@ -72,7 +72,7 @@ export const CheckoutFormModal: React.FC<CheckoutFormModalProps> = ({
       };
 
       // Envia webhook
-      const webhookUrl = 'https://n8n.araxa.app/webhook-test/receive-form-dash';
+      const webhookUrl = 'https://wbn.araxa.app/webhook/receive-form-dash';
       
       const response = await fetch(webhookUrl, {
         method: 'POST',

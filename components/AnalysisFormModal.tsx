@@ -46,14 +46,14 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
         onClick={onClose}
       />
       
-      <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-          <h3 className="font-display font-bold text-lg text-slate-800">
+      <div className="relative bg-[#111111] w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 border border-slate-700">
+        <div className="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-[#1A1A1A]">
+          <h3 className="font-display font-bold text-lg text-white">
             Análise de Visibilidade Odontológica
           </h3>
           <button 
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-colors"
+            className="p-2 hover:bg-slate-700 rounded-full text-slate-400 hover:text-white transition-colors"
           >
             <X size={20} />
           </button>
@@ -61,10 +61,10 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
 
         <div className="p-8">
           <div className="mb-6 text-center">
-             <h4 className="text-2xl font-display font-bold text-slate-900 mb-2">
+             <h4 className="text-2xl font-display font-bold text-white mb-2">
                Vamos encontrar sua clínica
              </h4>
-             <p className="text-slate-600 text-sm">
+             <p className="text-slate-400 text-sm">
                Preencha os dados abaixo para que nossa IA possa varrer o Google e os principais modelos de linguagem.
              </p>
           </div>
@@ -79,7 +79,7 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
                    required
                    autoFocus
                    placeholder="Ex: Clínica Sorriso, Dr. João Silva..."
-                   className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all text-slate-800 font-medium"
+                   className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white font-medium"
                    value={formData.name}
                    onChange={e => setFormData({...formData, name: e.target.value})}
                  />
@@ -95,7 +95,7 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
                      type="text"
                      required
                      placeholder="Ex: Implantes, Ortodontia"
-                     className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-slate-800 font-medium"
+                     className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-white font-medium"
                      value={formData.category}
                      onChange={e => setFormData({...formData, category: e.target.value})}
                    />
@@ -109,7 +109,7 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
                      type="text"
                      required
                      placeholder="Ex: São Paulo"
-                     className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-slate-800 font-medium"
+                     className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-white font-medium"
                      value={formData.city}
                      onChange={e => setFormData({...formData, city: e.target.value})}
                    />
@@ -120,7 +120,7 @@ export const AnalysisFormModal: React.FC<AnalysisFormModalProps> = ({ isOpen, on
              <button 
                type="submit"
                disabled={isLoading}
-               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 group mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
+               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-900/50 transition-all flex items-center justify-center gap-2 group mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
              >
                {isLoading ? (
                  <Loader2 className="animate-spin" />

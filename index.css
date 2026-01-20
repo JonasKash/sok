@@ -9,12 +9,63 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Design System Profound → Avestra - CSS Variables (Dark Theme) */
+:root {
+  /* Backgrounds - Dark Theme */
+  --bg-primary: #0A0A0A;  /* Quase preto - background principal */
+  --bg-secondary: #111111;  /* Preto suave - backgrounds secundários */
+  --bg-accent: #1A1A1A;  /* Cinza muito escuro - accents */
+  --bg-card: #151515;  /* Background de cards */
+  --bg-hover: #1F1F1F;  /* Hover states */
+  
+  /* Blues - Gradiente principal (mais vibrantes no dark) */
+  --blue-900: #0A2540;
+  --blue-800: #1E3A8A;
+  --blue-700: #2563EB;  /* Azul elétrico - CTAs primários */
+  --blue-600: #3B82F6;  /* Azul padrão - links, accents */
+  --blue-500: #60A5FA;  /* Azul claro */
+  --blue-400: #93C5FD;  /* Azul muito claro - hover states */
+  --blue-300: #BFDBFE;
+  --blue-200: #DBEAFE;
+  --blue-100: #EFF6FF;
+  --blue-50: #F0F9FF;
+  
+  /* Neutrals - Dark Theme */
+  --gray-900: #FFFFFF;  /* Texto principal - branco */
+  --gray-800: #F1F5F9;  /* Texto secundário claro */
+  --gray-700: #E2E8F0;  /* Texto secundário */
+  --gray-600: #CBD5E1;  /* Texto terciário */
+  --gray-500: #94A3B8;  /* Texto terciário médio */
+  --gray-400: #64748B;  /* Texto terciário escuro */
+  --gray-300: #475569;
+  --gray-200: #334155;  /* Borders */
+  --gray-100: #1E293B;  /* Backgrounds sutis */
+  
+  /* Accents - Azul elétrico para dark theme */
+  --accent-primary: #3B82F6;   /* Azul elétrico brilhante */
+  --accent-glow: rgba(59, 130, 246, 0.4);  /* Glow mais intenso no dark */
+  --accent-glow-strong: rgba(59, 130, 246, 0.6);
+  
+  /* Spacing System */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+  --space-2xl: 120px;
+  --space-3xl: 160px;
+  
+  /* Typography */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
-  color: #0f172a;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--gray-900);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -41,5 +92,75 @@ img {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+/* Gradient Text Animation (substituindo o efeito néon do Profound) */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--blue-600) 0%,
+    var(--blue-400) 50%,
+    var(--blue-600) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Glow Effect (substituindo o néon verde por azul) */
+.glow-element {
+  position: relative;
+}
+
+.glow-element::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(
+    circle at center,
+    var(--accent-glow) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow-element:hover::before {
+  opacity: 1;
+}
+
+/* Background Gradients Sutis - Dark Theme */
+.section-gradient {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(59, 130, 246, 0.1) 0%,
+    transparent 50%
+  );
+}
+
+/* Dark Theme Specific Styles */
+.dark-card {
+  background: var(--bg-card);
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+}
+
+.dark-card:hover {
+  background: var(--bg-hover);
+  border-color: var(--blue-600);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
 }
 

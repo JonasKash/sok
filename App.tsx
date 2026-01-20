@@ -161,16 +161,16 @@ const App: React.FC = () => {
 
     if (isAdmin && showUTMGenerator) {
       return (
-        <div className="min-h-screen bg-slate-50 p-6">
+        <div className="min-h-screen bg-[#0A0A0A] p-6">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6 flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-slate-900">Gerador de UTMs</h1>
+              <h1 className="text-2xl font-bold text-white">Gerador de UTMs</h1>
               <button
                 onClick={() => {
                   setShowUTMGenerator(false);
                   window.history.pushState({}, '', window.location.pathname);
                 }}
-                className="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors"
+                className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
               >
                 Voltar
               </button>
@@ -183,8 +183,8 @@ const App: React.FC = () => {
 
     if (isAdmin && showAdmin) {
       return (
-        <div>
-          <div className="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div className="dark bg-[#0A0A0A]">
+          <div className="bg-[#111111] border-b border-slate-700 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button
@@ -206,7 +206,7 @@ const App: React.FC = () => {
             </div>
           </div>
           {showUTMGenerator ? (
-            <div className="p-6">
+            <div className="p-6 bg-[#0A0A0A]">
               <div className="max-w-4xl mx-auto">
                 <UTMGenerator />
               </div>
@@ -231,7 +231,7 @@ const App: React.FC = () => {
 
   // Main App Routes
   return (
-    <div className="antialiased text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900" style={{ minHeight: '100vh', width: '100%' }}>
+    <div className="dark antialiased text-white font-sans selection:bg-indigo-900 selection:text-indigo-100 bg-[#0A0A0A]" style={{ minHeight: '100vh', width: '100%' }}>
       
       {view === 'hero' && (
         <>

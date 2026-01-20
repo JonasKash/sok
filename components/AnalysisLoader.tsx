@@ -39,30 +39,30 @@ export const AnalysisLoader: React.FC<AnalysisLoaderProps> = ({ onComplete }) =>
   const progress = Math.min(((currentStep) / steps.length) * 100, 100);
 
   return (
-    <div className="fixed inset-0 bg-slate-50 z-50 flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center relative overflow-hidden">
+    <div className="fixed inset-0 bg-[#0A0A0A] z-50 flex flex-col items-center justify-center p-6">
+      <div className="max-w-md w-full bg-[#111111] rounded-2xl shadow-xl border border-slate-700 p-8 text-center relative overflow-hidden">
         
         {/* Progress Bar Top */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-slate-700">
           <div 
-            className="h-full bg-indigo-600 transition-all duration-700 ease-in-out"
+            className="h-full bg-blue-600 transition-all duration-700 ease-in-out"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         <div className="mb-8 relative flex justify-center mt-4">
-          <div className="absolute inset-0 bg-indigo-500 blur-xl opacity-20 rounded-full animate-pulse"></div>
-          <Loader2 className="w-16 h-16 text-indigo-600 animate-spin relative z-10" />
+          <div className="absolute inset-0 bg-blue-500 blur-xl opacity-20 rounded-full animate-pulse"></div>
+          <Loader2 className="w-16 h-16 text-blue-400 animate-spin relative z-10" />
         </div>
         
-        <h2 className="text-2xl font-display font-bold text-slate-800 mb-2">
+        <h2 className="text-2xl font-display font-bold text-white mb-2">
           Analisando seu posicionamento digital
         </h2>
-        <p className="text-slate-500 text-sm mb-8">
+        <p className="text-slate-400 text-sm mb-8">
           Estamos varrendo bases de dados públicas e simulações de IA. Por favor, aguarde.
         </p>
 
-        <div className="space-y-5 text-left bg-slate-50 p-6 rounded-xl border border-slate-100">
+        <div className="space-y-5 text-left bg-[#1A1A1A] p-6 rounded-xl border border-slate-700">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isActive = index === currentStep;
@@ -77,8 +77,8 @@ export const AnalysisLoader: React.FC<AnalysisLoaderProps> = ({ onComplete }) =>
                 }`}
               >
                 <div className={`p-2 rounded-full transition-colors duration-300 ${
-                  isCompleted ? 'bg-green-100 text-green-600' : 
-                  isActive ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-200 text-slate-400'
+                  isCompleted ? 'bg-green-900/50 text-green-400' : 
+                  isActive ? 'bg-blue-900/50 text-blue-400' : 'bg-slate-700 text-slate-500'
                 }`}>
                   {isCompleted ? (
                     <CheckCircle2 size={18} />
@@ -90,14 +90,14 @@ export const AnalysisLoader: React.FC<AnalysisLoaderProps> = ({ onComplete }) =>
                 </div>
                 
                 <span className={`font-medium text-sm md:text-base flex-1 ${
-                  isActive ? 'text-indigo-900 font-semibold' : 
-                  isCompleted ? 'text-slate-600' : 'text-slate-400'
+                  isActive ? 'text-blue-300 font-semibold' : 
+                  isCompleted ? 'text-slate-300' : 'text-slate-500'
                 }`}>
                   {step.text}
                 </span>
 
                 {isActive && (
-                  <span className="text-xs font-bold text-indigo-600 animate-pulse whitespace-nowrap">
+                  <span className="text-xs font-bold text-blue-400 animate-pulse whitespace-nowrap">
                     Processando...
                   </span>
                 )}
@@ -106,7 +106,7 @@ export const AnalysisLoader: React.FC<AnalysisLoaderProps> = ({ onComplete }) =>
           })}
         </div>
         
-        <div className="mt-6 text-xs text-slate-400">
+        <div className="mt-6 text-xs text-slate-500">
           Isso pode levar alguns segundos. Não feche a página.
         </div>
       </div>
