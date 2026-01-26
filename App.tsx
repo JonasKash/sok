@@ -7,8 +7,11 @@ import { AdminLogin } from './components/AdminLogin';
 import { AdminDashboard } from './components/AdminDashboard';
 import { UTMGenerator } from './components/UTMGenerator';
 import { ThankYouPage } from './components/ThankYouPage';
+import { LoginModal } from './components/LoginModal';
+import { UserDashboard } from './components/UserDashboard';
 import { analyzeBusiness } from './services/api';
 import { trackingService } from './services/tracking';
+import { supabase } from './services/supabase';
 import { BusinessData, ViewState, AnalysisResult } from './types';
 
 const ADMIN_EMAIL = 'jonasav21@gmail.com';
@@ -17,29 +20,77 @@ const ADMIN_PASSWORD = 'teste123adminteste123';
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('hero');
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [businessData, setBusinessData] = useState<BusinessData | null>(null);
   const [results, setResults] = useState<AnalysisResult | null>(null);
   const [userCity, setUserCity] = useState<string>('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showUTMGenerator, setShowUTMGenerator] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   // Verifica rotas especiais
   useEffect(() => {
     const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
-    
+
+    // Check for persisted login or direct access
+    const isLoggedIn = localStorage.getItem('demo_auth');
+    if (path === '/dashboard' && isLoggedIn) {
+      setView('user-dashboard');
+      return;
+    }
+
     if (path === '/obrigado') {
       // Página de agradecimento - será renderizada abaixo
       return;
     }
-    
+
     if (params.get('admin') === 'true') {
       setShowAdmin(true);
     }
     if (params.get('utm_generator') === 'true') {
       setShowUTMGenerator(true);
     }
+  }, []);
+
+  // Verifica autenticação do Supabase (apenas se configurado)
+  useEffect(() => {
+    if (!supabase) {
+      // Supabase não configurado, não tenta autenticar
+      return;
+    }
+
+    let mounted = true;
+
+    // Verifica sessão atual
+    supabase.auth.getSession()
+      .then(({ data: { session }, error }) => {
+        if (error) {
+          console.error('Erro ao verificar sessão:', error);
+          return;
+        }
+        if (mounted) {
+          setUser(session?.user ?? null);
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao obter sessão:', error);
+      });
+
+    // Escuta mudanças de autenticação
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (mounted) {
+        setUser(session?.user ?? null);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Rastreia PageView da landing page
@@ -116,16 +167,16 @@ const App: React.FC = () => {
 
   const handleStartAnalysis = async (data: BusinessData) => {
     setIsFormOpen(false);
-    
+
     // Rastreia submissão do formulário
     await trackingService.trackFormSubmit(data);
-    
+
     setBusinessData(data);
     setView('analyzing');
-    
+
     const analysisResults = await analyzeBusiness(data);
     setResults(analysisResults);
-    
+
     // Rastreia geração do relatório
     await trackingService.trackReportGenerated(analysisResults);
   };
@@ -232,10 +283,10 @@ const App: React.FC = () => {
   // Main App Routes
   return (
     <div className="dark antialiased text-white font-sans selection:bg-indigo-900 selection:text-indigo-100 bg-[#0A0A0A]" style={{ minHeight: '100vh', width: '100%' }}>
-      
+
       {view === 'hero' && (
         <>
-          <LandingPage 
+          <LandingPage
             onOpenForm={() => {
               // Rastreia clique no CTA para ver relatório (ViewContent)
               trackingService.trackEvent('view_content', {
@@ -243,14 +294,26 @@ const App: React.FC = () => {
                 contentCategory: 'CTA Click',
               });
               setIsFormOpen(true);
-            }} 
+            }}
+            onOpenLogin={() => setIsLoginOpen(true)}
             userCity={userCity}
           />
-          <AnalysisFormModal 
-            isOpen={isFormOpen} 
-            onClose={() => setIsFormOpen(false)} 
+          <AnalysisFormModal
+            isOpen={isFormOpen}
+            onClose={() => setIsFormOpen(false)}
             onSubmit={handleStartAnalysis}
             initialCity={userCity}
+          />
+          <LoginModal
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+            onLoginSuccess={() => {
+              console.log('Login realizado com sucesso!');
+              localStorage.setItem('demo_auth', 'true');
+              window.history.pushState(null, '', '/dashboard');
+              setIsLoginOpen(false);
+              setView('user-dashboard');
+            }}
           />
         </>
       )}
@@ -260,12 +323,20 @@ const App: React.FC = () => {
       )}
 
       {view === 'dashboard' && businessData && results && (
-        <Dashboard 
-          businessData={businessData} 
-          results={results} 
+        <Dashboard
+          businessData={businessData}
+          results={results}
         />
       )}
-      
+
+      {view === 'user-dashboard' && (
+        <UserDashboard onLogout={() => {
+          localStorage.removeItem('demo_auth');
+          window.history.pushState(null, '', '/');
+          setView('hero');
+        }} />
+      )}
+
     </div>
   );
 };

@@ -27,6 +27,7 @@ import { Card, CardContent, CardHeader } from './ui/card';
 
 interface LandingPageProps {
   onOpenForm: () => void;
+  onOpenLogin?: () => void;
   userCity?: string;
 }
 
@@ -39,7 +40,7 @@ const CardDecorator = ({ children }: { children: ReactNode }) => (
   </div>
 );
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogin, userCity }) => {
   const cityDisplay = userCity || "sua cidade";
   const fadeInRefs = useRef<(HTMLElement | null)[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -102,7 +103,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              Análise Gratuita
+              Teste Gratuito
             </motion.a>
             <motion.a 
               href="#como-funciona" 
@@ -124,7 +125,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
 
           <div className="flex items-center gap-2 md:gap-4">
             <motion.button 
-              onClick={onOpenForm}
+              onClick={() => onOpenLogin?.()}
               className="hidden md:block text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -169,7 +170,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
                 className="block py-2 text-slate-300 hover:text-blue-400 transition-colors text-base font-medium"
                 whileTap={{ scale: 0.98 }}
               >
-                Análise Gratuita
+                Teste Gratuito
               </motion.a>
               <motion.a
                 href="#como-funciona"
@@ -190,7 +191,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
               <motion.button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  onOpenForm();
+                  onOpenLogin?.();
                 }}
                 className="block w-full py-2 text-slate-300 hover:text-blue-400 transition-colors text-base font-medium text-left"
                 whileTap={{ scale: 0.98 }}
@@ -214,7 +215,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider mb-8 shadow-lg shadow-green-500/10"
             >
               <span className="bg-green-500 text-white px-2 py-0.5 rounded-md text-[10px]">✓</span>
-              <span>Análise Gratuita</span>
+              <span>Teste Gratuito</span>
             </motion.div>
             
             {/* Hero Title */}
@@ -284,7 +285,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
               <div className="relative w-full">
                 {/* Dashboard Image */}
                 <img 
-                  src="/Dashboard Screen.png" 
+                  src="/Dashboard.png" 
                   alt="Dashboard Avestra - Análise de Autoridade Digital"
                   className="w-full h-auto object-contain rounded-3xl"
                 />
@@ -305,52 +306,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
         </div>
       </section>
 
-      {/* 2. LOGO GRID - Social Proof */}
-      <section className="py-12 md:py-24 border-y border-slate-700/50 bg-[#111111]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center text-xl sm:text-2xl md:text-3xl font-display font-bold text-white mb-6 md:mb-8 px-4"
-          >
-            Clínicas que já dominam a busca por IA
-          </motion.h2>
-          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-12 lg:gap-20 mb-6 md:mb-8">
-            {[
-              { icon: Cpu, name: "OpenAI" },
-              { icon: Bot, name: "Gemini" },
-              { icon: Layers, name: "Perplexity" },
-              { icon: MessageSquare, name: "Claude" }
-            ].map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex items-center gap-2 text-slate-300 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
-                whileHover={{ scale: 1.1 }}
-              >
-                <item.icon size={28} strokeWidth={2} />
-                <span className="font-display font-bold text-xl">{item.name}</span>
-              </motion.div>
-            ))}
-          </div>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-center text-xs sm:text-sm md:text-base text-slate-400 px-4"
-          >
-            +150 clínicas médicas já aparecem como primeira opção quando pacientes perguntam à IA
-          </motion.p>
-        </div>
-      </section>
 
-      {/* 3. FEATURE SECTION 1 - Análise Gratuita */}
+      {/* 3. FEATURE SECTION 1 - Teste Gratuito */}
       <section 
         id="features"
         ref={addToRefs}
@@ -373,60 +330,84 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-500/30 text-green-400 text-xs font-bold uppercase mb-6 shadow-lg shadow-green-500/10"
               >
                 <CheckCircle2 size={14} strokeWidth={2} />
-                <span>Análise Gratuita</span>
+                <span>Teste Gratuito</span>
               </motion.div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">
-                Descubra se sua clínica aparece quando pacientes perguntam à IA
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 md:mb-8 leading-tight">
+                O Que Você Descobre no Teste Gratuito
               </h2>
-              <p className="text-base sm:text-lg text-slate-400 mb-6 md:mb-8 leading-relaxed">
-                Testamos sua clínica em ChatGPT, Claude e Perplexity e mostramos exatamente onde você está perdendo pacientes.
-              </p>
-              <motion.button 
-                onClick={onOpenForm}
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-3 md:px-6 md:py-3 rounded-2xl font-semibold hover:bg-blue-700 transition-all mb-6 md:mb-8 shadow-xl shadow-blue-900/50 text-sm md:text-base min-h-[48px]"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                Testar Minha Clínica Grátis
-                <ArrowRight className="w-4 h-4" strokeWidth={2} />
-              </motion.button>
-
+              
               {/* Feature Points */}
-              <div className="space-y-4 mt-12">
+              <div className="space-y-4 mb-8 md:mb-10">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} />
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
                   <div>
-                    <p className="text-white text-sm leading-relaxed">
-                      <strong>Teste em 5+ plataformas de IA</strong>
+                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                      Em quais IAs sua clínica aparece (ou não)
+                    </p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                      Testamos em ChatGPT, Claude, Perplexity e Gemini
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} />
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
                   <div>
-                    <p className="text-white text-sm leading-relaxed">
-                      <strong>Comparação com concorrentes</strong>
+                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                      Quantos pacientes você está perdendo por mês
+                    </p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                      Baseado no volume de busca da sua especialidade + cidade
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} />
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
                   <div>
-                    <p className="text-white text-sm leading-relaxed">
-                      <strong>Pontos de melhoria específicos</strong>
+                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                      Como você está comparado aos concorrentes
+                    </p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                      Mostramos quem está na frente e por quê
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} />
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
                   <div>
-                    <p className="text-white text-sm leading-relaxed">
-                      <strong>Estimativa de pacientes perdidos</strong>
+                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                      Score de Visibilidade (0-100)
+                    </p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                      Métrica clara do seu posicionamento atual
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
+                  <div>
+                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                      4 Problemas Críticos Detectados
+                    </p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                      Erros técnicos que estão te tornando invisível
                     </p>
                   </div>
                 </div>
               </div>
+
+              <motion.button 
+                onClick={onOpenForm}
+                className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3.5 md:px-8 md:py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all mb-3 shadow-xl shadow-blue-900/50 text-sm md:text-base min-h-[48px] w-full sm:w-auto"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                Fazer Teste Gratuito Agora
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2} />
+              </motion.button>
+              <p className="text-xs md:text-sm text-slate-400">
+                Leva 2 minutos. Resultado na hora.
+              </p>
             </motion.div>
 
             {/* Right: Visual */}
@@ -487,71 +468,85 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12 md:mb-20"
+            className="text-center mb-12 md:mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight px-4">
-              O jeito que pacientes encontram clínicas mudou para sempre
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-8 md:mb-10 leading-tight px-4">
+              Como Pacientes Escolhem Clínicas Hoje
             </h2>
           </motion.div>
           
-          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-            {/* Antes (Google) */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-[#0A0A0A]/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 shadow-xl shadow-black/20 hover:shadow-2xl hover:shadow-black/30 transition-all"
-              whileHover={{ scale: 1.02, y: -4 }}
-            >
-              <div className="text-blue-400 font-bold text-sm uppercase mb-4">Antes (Google)</div>
-              <div className="space-y-3 text-slate-300 text-sm">
-                <p>Paciente pesquisava no Google</p>
-                <ArrowRight className="text-slate-500" size={16} strokeWidth={2} />
-                <p>Via 10 resultados</p>
-                <ArrowRight className="text-slate-500" size={16} strokeWidth={2} />
-                <p>Clicava em 3-4 sites</p>
-                <ArrowRight className="text-slate-500" size={16} strokeWidth={2} />
-                <p>Comparava sozinho</p>
+          {/* Comparison Table */}
+          <div className="bg-[#0A0A0A]/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 md:p-8 shadow-xl shadow-black/20 mb-8 md:mb-10">
+            {/* Header */}
+            <div className="grid grid-cols-2 gap-4 mb-6 pb-4 border-b border-slate-700">
+              <div className="text-blue-400 font-bold text-sm md:text-base uppercase">Antes: Busca no Google</div>
+              <div className="text-green-400 font-bold text-sm md:text-base uppercase">Agora: Pergunta à IA</div>
+            </div>
+            
+            {/* Comparison Rows */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-slate-300 text-sm md:text-base">Paciente via 10+ resultados</div>
+                <div className="text-slate-300 text-sm md:text-base">Paciente recebe 1-3 respostas</div>
               </div>
-            </motion.div>
-
-            {/* Agora (IA) */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-[#0A0A0A]/80 backdrop-blur-sm border border-blue-600/50 rounded-2xl p-6 shadow-xl shadow-blue-900/20 hover:shadow-2xl hover:shadow-blue-900/30 transition-all"
-              whileHover={{ scale: 1.02, y: -4 }}
-            >
-              <div className="text-green-400 font-bold text-sm uppercase mb-4">Agora (IA)</div>
-              <div className="space-y-3 text-slate-300 text-sm">
-                <p>Paciente pergunta ao ChatGPT</p>
-                <ArrowRight className="text-blue-400" size={16} strokeWidth={2} />
-                <p>Recebe 1-3 recomendações</p>
-                <ArrowRight className="text-blue-400" size={16} strokeWidth={2} />
-                <p>Decide na hora</p>
-                <ArrowRight className="text-blue-400" size={16} strokeWidth={2} />
-                <p>Agenda diretamente</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-slate-300 text-sm md:text-base">Clicava em 3-4 sites</div>
+                <div className="text-slate-300 text-sm md:text-base">IA já filtra e recomenda</div>
               </div>
-            </motion.div>
-
-            {/* Resultado */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-br from-red-900/20 to-red-800/10 backdrop-blur-sm border border-red-700/50 rounded-2xl p-6 shadow-xl shadow-red-900/20 hover:shadow-2xl hover:shadow-red-900/30 transition-all"
-              whileHover={{ scale: 1.02, y: -4 }}
-            >
-              <div className="text-red-400 font-bold text-sm uppercase mb-4">Resultado</div>
-              <p className="text-white font-semibold leading-relaxed">
-                Se sua clínica não está nessas 1-3 recomendações, você não existe para esse paciente.
-              </p>
-            </motion.div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-slate-300 text-sm md:text-base">Comparava sozinho</div>
+                <div className="text-slate-300 text-sm md:text-base">Confia na recomendação da IA</div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-slate-300 text-sm md:text-base">Demorava dias para decidir</div>
+                <div className="text-slate-300 text-sm md:text-base">Decide em minutos</div>
+              </div>
+            </div>
           </div>
+
+          {/* A Diferença Brutal */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-gradient-to-br from-red-900/20 to-red-800/10 backdrop-blur-sm border border-red-700/50 rounded-2xl p-6 md:p-8 shadow-xl shadow-red-900/20 mb-8"
+          >
+            <h3 className="text-xl md:text-2xl font-display font-bold text-red-400 mb-4 md:mb-6">
+              A Diferença Brutal
+            </h3>
+            <div className="space-y-4 text-slate-300">
+              <p className="text-base md:text-lg leading-relaxed">
+                No Google, você compete com 10 clínicas.
+              </p>
+              <p className="text-base md:text-lg leading-relaxed font-semibold text-white">
+                Na IA, você compete para ser 1 de 3 — ou fica invisível.
+              </p>
+              <p className="text-sm md:text-base leading-relaxed text-red-300">
+                Se sua clínica não aparece nessas respostas, você perdeu o paciente antes mesmo dele saber que você existe.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center"
+          >
+            <motion.button 
+              onClick={onOpenForm}
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3.5 md:px-8 md:py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-900/50 text-sm md:text-base min-h-[48px] w-full sm:w-auto"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              Ver Meu Posicionamento Atual
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2} />
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 
@@ -590,21 +585,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
               categories={[
                 {
                   id: 1,
-                  title: "Passo 1 - Análise",
-                  subtitle: "Analisamos sua presença atual. Testamos sua clínica em 5+ plataformas de IA e identificamos onde você está perdendo pacientes.",
-                  icon: <span>📊</span>,
+                  title: "1️⃣ Diagnóstico Completo",
+                  subtitle: "Identificamos os 4-7 erros técnicos que estão tornando sua clínica invisível para ChatGPT, Claude e outras IAs. Incluído no teste gratuito que você faz agora.",
                 },
                 {
                   id: 2,
-                  title: "Passo 2 - Otimização",
-                  subtitle: "Otimizamos seu conteúdo. Criamos e otimizamos conteúdo específico para fazer a IA recomendar sua clínica.",
-                  icon: <span>🚀</span>,
+                  title: "2️⃣ Correção Estrutural",
+                  subtitle: "Corrigimos cada erro detectado: site, Google Meu Negócio, presença institucional, conteúdo e autoridade técnica.",
                 },
                 {
                   id: 3,
-                  title: "Passo 3 - Monitoramento",
-                  subtitle: "Acompanhamos resultados. Você vê em tempo real quantas vezes sua clínica é recomendada e quantos pacientes chegam.",
-                  icon: <span>📈</span>,
+                  title: "3️⃣ Monitoramento Contínuo",
+                  subtitle: "Acompanhamos seu score e citações em tempo real. Você vê quando e como sua clínica é recomendada.",
                 },
               ]}
               className="p-0"
@@ -821,15 +813,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
             >
               Quero Testar Minha Clínica Grátis
             </motion.button>
-            <motion.button 
-              onClick={onOpenForm}
-              className="bg-[#1A1A1A]/80 backdrop-blur-sm text-blue-400 border-2 border-blue-600/50 px-6 py-3.5 md:px-8 md:py-4 rounded-2xl font-bold text-sm sm:text-base md:text-lg hover:bg-[#1F1F1F] hover:border-blue-600 transition-all shadow-lg shadow-black/20 min-h-[48px] w-full sm:w-auto"
-              whileHover={{ scale: 1.05, y: -4 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              Agendar Conversa com Especialista
-            </motion.button>
           </motion.div>
 
           {/* Garantia */}
@@ -866,13 +849,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, userCity }
                 whileTap={{ scale: 0.98 }}
               >
                 Começar Agora
-              </motion.button>
-              <motion.button 
-                onClick={onOpenForm}
-                className="bg-[#1A1A1A] text-blue-400 border-2 border-blue-600 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-sm sm:text-base hover:bg-[#1F1F1F] transition-all min-h-[48px] w-full sm:w-auto"
-                whileTap={{ scale: 0.98 }}
-              >
-                Falar com Especialista
               </motion.button>
             </div>
           </div>

@@ -27,7 +27,7 @@ export interface AnalysisResult {
   techIssues: string[]; // List of detected or common issues
 }
 
-export type ViewState = 'hero' | 'analyzing' | 'dashboard';
+export type ViewState = 'hero' | 'analyzing' | 'dashboard' | 'user-dashboard';
 
 // Mercado Pago Interfaces
 export interface PixPaymentData {

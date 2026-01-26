@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Smartphone, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, Smartphone, Loader2, AlertCircle, CheckCircle, TrendingUp, Target, MessageCircle, BarChart3, Users, FileText } from 'lucide-react';
 import { BusinessData } from '../types';
 import { trackingService } from '../services/tracking';
 
@@ -94,7 +94,41 @@ export const CheckoutFormModal: React.FC<CheckoutFormModalProps> = ({
         category: businessData.category,
       });
 
+      // Constrói URL do checkout com todas as UTMs
+      const checkoutUrl = new URL('https://www.ggcheckout.com/checkout/v2/otQ1Nxc2FmNswavYjubL');
+      const utms = trackingService.getUTMs();
+      
+      // Adiciona todas as UTMs como query parameters
+      if (utms.utm_source) {
+        checkoutUrl.searchParams.set('utm_source', utms.utm_source);
+      }
+      if (utms.utm_medium) {
+        checkoutUrl.searchParams.set('utm_medium', utms.utm_medium);
+      }
+      if (utms.utm_campaign) {
+        checkoutUrl.searchParams.set('utm_campaign', utms.utm_campaign);
+      }
+      if (utms.utm_term) {
+        checkoutUrl.searchParams.set('utm_term', utms.utm_term);
+      }
+      if (utms.utm_content) {
+        checkoutUrl.searchParams.set('utm_content', utms.utm_content);
+      }
+
+      // Adiciona informações adicionais para rastreamento
+      if (webhookData.lead_id) {
+        checkoutUrl.searchParams.set('lead_id', webhookData.lead_id);
+      }
+      if (webhookData.session_id) {
+        checkoutUrl.searchParams.set('session_id', webhookData.session_id);
+      }
+
       setSuccess(true);
+
+      // Redireciona para o checkout após 1 segundo (para mostrar mensagem de sucesso)
+      setTimeout(() => {
+        window.location.href = checkoutUrl.toString();
+      }, 1000);
     } catch (err) {
       console.error('Erro ao enviar webhook:', err);
       setError(
@@ -132,12 +166,77 @@ export const CheckoutFormModal: React.FC<CheckoutFormModalProps> = ({
               </div>
               
               <h3 className="text-2xl font-display font-bold text-slate-900 mb-2 text-center">
-                Coloque suas informações aqui para receber o relatório completo
+                Receba seu Relatório Completo
               </h3>
               
               <p className="text-slate-600 mb-6 text-sm text-center">
-                Preencha seu WhatsApp para receber o relatório completo por mensagem.
+                Preencha seu WhatsApp e receba tudo isso por mensagem:
               </p>
+
+              {/* Lista de Benefícios */}
+              <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-5 mb-6 border border-indigo-100">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <TrendingUp className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Pontuação de Relevância no Seu Nicho</p>
+                      <p className="text-xs text-slate-600 mt-0.5">Veja sua posição atual e como melhorar</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <Target className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Plano de Ação</p>
+                      <p className="text-xs text-slate-600 mt-0.5">Passos práticos para melhorar sua posição nas IAs</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <MessageCircle className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Suporte para Tirar Dúvidas</p>
+                      <p className="text-xs text-slate-600 mt-0.5">Ajuda personalizada para executar o plano</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <BarChart3 className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Acesso ao Dashboard com Métricas</p>
+                      <p className="text-xs text-slate-600 mt-0.5">Acompanhe métricas relevantes da sua empresa</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <Users className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Análise de Concorrentes</p>
+                      <p className="text-xs text-slate-600 mt-0.5">O que eles fazem de diferente que você não faz</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                      <FileText className="text-white" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-900">Tipos de Conteúdos Necessários</p>
+                      <p className="text-xs text-slate-600 mt-0.5">Conteúdos específicos para aumentar sua pontuação</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">

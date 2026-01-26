@@ -233,3 +233,8 @@ App.tsx                            # Atualizado com rotas e tracking
 
 
 
+
+
+
+
+

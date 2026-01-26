@@ -61,7 +61,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-8 md:space-y-12">
+      <main className="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-6 md:space-y-8 lg:space-y-12">
         
         {/* Hero Card: Lost Patients/Revenue */}
         <section className="bg-[#111111] rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
@@ -202,63 +202,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
             </div>
         </section>
 
-        {/* Locked Report Section (The Hook) */}
-        <section className="relative pt-8 md:pt-10">
-            <h3 className="text-lg md:text-xl font-display font-bold text-white mb-4 md:mb-6 px-2 flex items-center gap-2">
-                <EyeOff size={20} className="text-slate-400 md:w-6 md:h-6" />
-                Diagnóstico Detalhado de Erros
-            </h3>
-
-            {/* Background (Blurred Content) */}
-            <div className="grid gap-3 md:gap-4 opacity-50 blur-[6px] select-none pointer-events-none">
-                {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-[#111111] p-4 md:p-6 rounded-xl border border-slate-700 flex gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-900/50 flex items-center justify-center shrink-0">
-                            <AlertTriangle className="text-red-400" size={20} />
-                        </div>
-                        <div className="space-y-2 w-full">
-                            <div className="h-3 md:h-4 bg-slate-700 rounded w-1/3"></div>
-                            <div className="h-2.5 md:h-3 bg-slate-800 rounded w-3/4"></div>
-                            <div className="h-2.5 md:h-3 bg-slate-800 rounded w-1/2"></div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* The Paywall Card */}
-            <div className="absolute top-24 md:top-20 left-0 right-0 z-10 flex flex-col items-center px-4">
-                <div className="bg-[#111111]/95 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-700/50 text-center max-w-md w-full hover:scale-[1.02] transition-transform duration-300">
-                    <div className="bg-amber-900/50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-inner">
-                        <Lock className="text-amber-400 w-6 h-6 md:w-8 md:h-8" />
-                    </div>
-                    
-                    <h4 className="text-xl md:text-2xl font-display font-bold text-white mb-3">
-                        Relatório de Autoridade Digital para Clínicas Odontológicas
-                    </h4>
-                    
-                    <p className="text-slate-400 font-inter mb-6 md:mb-8 text-sm leading-relaxed">
-                        Descubra por que sua clínica ainda não é reconhecida pelas IAs como referência e quais ajustes são necessários.
-                    </p>
-
-                    <button 
-                        onClick={async () => {
-                          // Rastreia clique no checkout
-                          await trackingService.trackCheckoutClick(29.90);
-                          setIsCheckoutFormOpen(true);
-                        }}
-                        className="w-full bg-blue-600 text-white py-3 md:py-4 rounded-xl font-bold text-base md:text-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-900/50 transition-all flex items-center justify-center gap-2 group"
-                    >
-                        RECEBER RELATÓRIO COMPLETO
-                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    
-                    <div className="mt-4 flex items-center justify-center gap-2 text-[10px] md:text-xs text-slate-500">
-                        <Lock size={12} /> Pagamento Único • Acesso Imediato
-                    </div>
-                </div>
-            </div>
-        </section>
-
         {/* Nova Seção: Explicação da Matemática */}
         <section className="bg-[#111111] rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
              <div className="bg-[#1A1A1A] border-b border-slate-700 p-4 md:p-6">
@@ -268,8 +211,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                 </h3>
              </div>
              
-             <div className="p-5 md:p-6">
-                <div className="grid md:grid-cols-3 gap-6">
+             <div className="p-4 md:p-5 lg:p-6">
+                <div className="grid md:grid-cols-3 gap-4 md:gap-6">
                     <div className="relative pl-4 border-l-2 border-slate-700">
                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide block mb-1">Passo 1: Demanda</span>
                         <div className="text-white font-semibold text-sm mb-1">
@@ -301,7 +244,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                     </div>
                 </div>
 
-                <div className="mt-6 bg-[#1A1A1A] border border-blue-800/50 rounded-xl p-4 flex gap-4 items-start">
+                <div className="mt-4 md:mt-6 bg-[#1A1A1A] border border-blue-800/50 rounded-xl p-3 md:p-4 flex gap-3 md:gap-4 items-start">
                     <div className="bg-blue-900/50 p-2 rounded-lg text-blue-400 shrink-0">
                         <TrendingUp size={18} />
                     </div>
@@ -310,6 +253,63 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
                         <p className="text-xs text-slate-400 leading-relaxed">
                             A otimização GEO não é gasto, é investimento para capturar pacientes qualificados que já procuram seus serviços.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {/* Locked Report Section (The Hook) */}
+        <section className="relative pt-8 md:pt-10">
+            <h3 className="text-lg md:text-xl font-display font-bold text-white mb-4 md:mb-6 px-2 flex items-center gap-2">
+                <EyeOff size={20} className="text-slate-400 md:w-6 md:h-6" />
+                Diagnóstico Detalhado de Erros
+            </h3>
+
+            {/* Background (Blurred Content) - Hidden on mobile, shown on desktop */}
+            <div className="hidden md:grid gap-3 md:gap-4 opacity-50 blur-[6px] select-none pointer-events-none">
+                {[1, 2, 3].map((i) => (
+                    <div key={i} className="bg-[#111111] p-4 md:p-6 rounded-xl border border-slate-700 flex gap-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-900/50 flex items-center justify-center shrink-0">
+                            <AlertTriangle className="text-red-400" size={20} />
+                        </div>
+                        <div className="space-y-2 w-full">
+                            <div className="h-3 md:h-4 bg-slate-700 rounded w-1/3"></div>
+                            <div className="h-2.5 md:h-3 bg-slate-800 rounded w-3/4"></div>
+                            <div className="h-2.5 md:h-3 bg-slate-800 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* The Paywall Card - Mobile: normal flow, Desktop: absolute overlay */}
+            <div className="md:absolute md:top-24 md:left-0 md:right-0 md:z-10 flex flex-col items-center px-4 md:px-0 mt-6 md:mt-0">
+                <div className="bg-[#111111]/95 backdrop-blur-md p-5 md:p-8 rounded-2xl shadow-2xl border border-slate-700/50 text-center max-w-md w-full hover:scale-[1.02] transition-transform duration-300">
+                    <div className="bg-amber-900/50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-inner">
+                        <Lock className="text-amber-400 w-6 h-6 md:w-8 md:h-8" />
+                    </div>
+                    
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-display font-bold text-white mb-3">
+                        Relatório de Autoridade Digital para Clínicas Odontológicas
+                    </h4>
+                    
+                    <p className="text-slate-400 font-inter mb-6 md:mb-8 text-sm leading-relaxed">
+                        Descubra por que sua clínica ainda não é reconhecida pelas IAs como referência e quais ajustes são necessários.
+                    </p>
+
+                    <button 
+                        onClick={async () => {
+                          // Rastreia clique no checkout
+                          await trackingService.trackCheckoutClick(29.90);
+                          setIsCheckoutFormOpen(true);
+                        }}
+                        className="w-full bg-blue-600 text-white py-3 md:py-4 rounded-xl font-bold text-sm md:text-base lg:text-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-900/50 transition-all flex items-center justify-center gap-2 group min-h-[48px]"
+                    >
+                        RECEBER RELATÓRIO COMPLETO
+                        <ArrowRight size={18} className="md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
+                    </button>
+                    
+                    <div className="mt-4 flex items-center justify-center gap-2 text-[10px] md:text-xs text-slate-500">
+                        <Lock size={12} /> Pagamento Único • Acesso Imediato
                     </div>
                 </div>
             </div>
