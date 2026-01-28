@@ -310,7 +310,7 @@ export const CheckoutFormModal: React.FC<CheckoutFormModalProps> = ({
               </div>
               
               <p className="text-xl font-semibold text-slate-900 text-center">
-                Entraremos em contato para envio do relatório completo
+                Recebi os dados para envio do relatório
               </p>
             </div>
           )}

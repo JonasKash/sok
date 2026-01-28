@@ -204,7 +204,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
       </motion.nav>
 
       {/* 1. HERO SECTION */}
-      <section className="pt-24 pb-12 md:pt-40 md:pb-32 px-4 md:px-8 relative overflow-hidden bg-gradient-to-b from-[#0A0A0A] to-[#111111]">
+      <section className="pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-40 md:pb-32 px-4 sm:px-6 md:px-8 relative overflow-hidden bg-gradient-to-b from-[#0A0A0A] to-[#111111]">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-4xl mx-auto text-center relative z-10">
             {/* Badge */}
@@ -212,9 +212,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider mb-8 shadow-lg shadow-green-500/10"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-500/30 text-green-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-6 sm:mb-8 shadow-lg shadow-green-500/10"
             >
-              <span className="bg-green-500 text-white px-2 py-0.5 rounded-md text-[10px]">✓</span>
+              <span className="bg-green-500 text-white px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px]">✓</span>
               <span>Teste Gratuito</span>
             </motion.div>
             
@@ -223,11 +223,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white leading-[1.1] mb-4 md:mb-6 tracking-tight px-2"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-white leading-[1.15] mb-3 sm:mb-4 md:mb-6 tracking-tight px-2"
             >
               Faça sua clínica ser recomendada por:
               <br className="hidden sm:block" />
-              <span className="sm:inline-block sm:mt-2">
+              <span className="sm:inline-block sm:mt-1 md:mt-2">
                 <TextLoop interval={2} className="bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent">
                   <span className="bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent">ChatGPT</span>
                   <span className="bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent">Gemini</span>
@@ -241,7 +241,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-base sm:text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-6 md:mb-10 px-4"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-5 sm:mb-6 md:mb-10 px-2 sm:px-4"
             >
               70% dos pacientes agora consultam o ChatGPT, Claude e Perplexity antes de escolher uma clínica. Se você não aparece lá, está perdendo pacientes para seus concorrentes todos os dias.
             </motion.p>
@@ -280,25 +280,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.9 }}
-              className="relative mt-12 rounded-3xl overflow-hidden shadow-2xl shadow-black/40 border border-slate-700/50 bg-[#0A0A0A]"
+              className="relative mt-6 sm:mt-8 md:mt-12 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-black/40 border border-slate-700/50 bg-[#0A0A0A]"
             >
               <div className="relative w-full">
                 {/* Dashboard Image */}
                 <img 
                   src="/Dashboard.png" 
                   alt="Dashboard Avestra - Análise de Autoridade Digital"
-                  className="w-full h-auto object-contain rounded-3xl"
+                  className="w-full h-auto object-contain rounded-2xl sm:rounded-3xl"
                 />
               </div>
               
               {/* Overlay com título do Dashboard */}
-              <div className="absolute top-6 left-6 flex items-center gap-3 z-10">
-                <div className="w-10 h-10 bg-blue-900/50 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 border border-blue-700/30">
-                  <Bot className="text-blue-400" size={20} />
+              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 flex items-center gap-2 sm:gap-3 z-10">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-blue-900/50 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 border border-blue-700/30">
+                  <Bot className="text-blue-400" size={16} strokeWidth={2} />
                 </div>
-                <div className="bg-[#111111]/90 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-700/50 shadow-lg">
-                  <div className="font-bold text-white text-sm">Análise de Autoridade Digital</div>
-                  <div className="text-xs text-slate-400">Dashboard Avestra</div>
+                <div className="bg-[#111111]/90 backdrop-blur-md px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-slate-700/50 shadow-lg">
+                  <div className="font-bold text-white text-xs sm:text-sm">Análise de Autoridade Digital</div>
+                  <div className="text-[10px] sm:text-xs text-slate-400">Dashboard Avestra</div>
                 </div>
               </div>
             </motion.div>
@@ -311,10 +311,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
       <section 
         id="features"
         ref={addToRefs}
-        className="fade-in-section py-16 md:py-24 lg:py-36 bg-[#0A0A0A]"
+        className="fade-in-section py-12 sm:py-16 md:py-24 lg:py-36 bg-[#0A0A0A]"
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 items-center">
             {/* Left: Content */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -332,19 +332,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenForm, onOpenLogi
                 <CheckCircle2 size={14} strokeWidth={2} />
                 <span>Teste Gratuito</span>
               </motion.div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 md:mb-8 leading-tight">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-5 sm:mb-6 md:mb-8 leading-tight">
                 O Que Você Descobre no Teste Gratuito
               </h2>
               
               {/* Feature Points */}
-              <div className="space-y-4 mb-8 md:mb-10">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={20} strokeWidth={2} />
+              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 md:mb-10">
+                <div className="flex items-start gap-2.5 sm:gap-3">
+                  <CheckCircle2 className="text-green-400 mt-0.5 flex-shrink-0" size={18} strokeWidth={2} />
                   <div>
-                    <p className="text-white font-semibold text-sm md:text-base leading-relaxed mb-1">
+                    <p className="text-white font-semibold text-sm sm:text-base leading-relaxed mb-0.5 sm:mb-1">
                       Em quais IAs sua clínica aparece (ou não)
                     </p>
-                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+                    <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
                       Testamos em ChatGPT, Claude, Perplexity e Gemini
                     </p>
                   </div>

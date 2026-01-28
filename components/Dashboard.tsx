@@ -61,57 +61,57 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-6 md:space-y-8 lg:space-y-12">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-10 space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-12">
         
         {/* Hero Card: Lost Patients/Revenue */}
-        <section className="bg-[#111111] rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
-            <div className="bg-red-900/20 p-4 md:p-6 border-b border-red-800/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-red-400 font-bold flex items-center gap-2 text-base md:text-lg">
-                        <UserX size={20} className="md:w-6 md:h-6" />
-                        Pacientes em potencial perdidos
+        <section className="bg-[#111111] rounded-xl sm:rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
+            <div className="bg-red-900/20 p-3 sm:p-4 md:p-6 border-b border-red-800/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
+                <div className="flex-1 min-w-0">
+                    <h2 className="text-red-400 font-bold flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base md:text-lg">
+                        <UserX size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
+                        <span className="break-words">Pacientes em potencial perdidos</span>
                     </h2>
-                    <p className="text-red-500/80 text-xs md:text-sm mt-1">
+                    <p className="text-red-500/80 text-xs sm:text-sm mt-1 break-words">
                         Pessoas buscando "{businessData.category}" em {businessData.city} que não te encontram.
                     </p>
                 </div>
-                <div className="bg-[#1A1A1A] px-4 py-2 md:px-6 md:py-3 rounded-xl shadow-sm border border-red-800/50 w-full md:w-auto text-right md:text-left">
-                    <span className="block text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider">Perda estimada de faturamento</span>
-                    <span className="text-xl md:text-3xl font-display font-black text-white block md:inline">
+                <div className="bg-[#1A1A1A] px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-lg sm:rounded-xl shadow-sm border border-red-800/50 w-full md:w-auto text-left md:text-right">
+                    <span className="block text-[9px] sm:text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider">Perda estimada de faturamento</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-black text-white block md:inline">
                         {estimatedLostRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
-                    <span className="text-[10px] md:text-xs text-red-400 font-bold block md:inline md:ml-1">/mês</span>
+                    <span className="text-[9px] sm:text-[10px] md:text-xs text-red-400 font-bold block md:inline md:ml-1">/mês</span>
                 </div>
             </div>
 
-            <div className="p-5 md:p-8 grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                        <AlertTriangle className="text-amber-500 shrink-0 mt-1" size={20} />
-                        <p className="text-slate-400 text-sm leading-relaxed">
+            <div className="p-4 sm:p-5 md:p-8 grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-center">
+                <div className="space-y-3 sm:space-y-4 order-2 md:order-1">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                        <AlertTriangle className="text-amber-500 shrink-0 mt-0.5 sm:mt-1" size={18} />
+                        <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
                             Esses pacientes normalmente escolhem clínicas que as IAs reconhecem como referência. Identificamos que <strong className="text-white">{results.competitorsCount} concorrentes</strong> estão melhor posicionados que você.
                         </p>
                     </div>
                     <div className="h-px bg-slate-700 w-full" />
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                          <div>
-                            <span className="text-slate-500 text-xs font-bold uppercase">Volume de Busca</span>
-                            <div className="text-lg md:text-xl font-bold text-white">{monthlySearchVolume}</div>
+                            <span className="text-slate-500 text-[10px] sm:text-xs font-bold uppercase">Volume de Busca</span>
+                            <div className="text-base sm:text-lg md:text-xl font-bold text-white mt-0.5">{monthlySearchVolume}</div>
                          </div>
                          <div>
-                            <span className="text-slate-500 text-xs font-bold uppercase">Score GEO</span>
-                            <div className="text-lg md:text-xl font-bold text-red-400">{score}/100</div>
+                            <span className="text-slate-500 text-[10px] sm:text-xs font-bold uppercase">Score GEO</span>
+                            <div className="text-base sm:text-lg md:text-xl font-bold text-red-400 mt-0.5">{score}/100</div>
                          </div>
                     </div>
                 </div>
                 
-                <div className="h-40 md:h-48 w-full">
+                <div className="h-36 sm:h-40 md:h-48 w-full order-1 md:order-2">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={chartData} layout="vertical">
                              <XAxis type="number" hide />
-                             <YAxis type="category" dataKey="name" width={90} tick={{fontSize: 11}} />
-                             <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                             <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={24}>
+                             <YAxis type="category" dataKey="name" width={70} tick={{fontSize: 10}} />
+                             <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontSize: '12px'}} />
+                             <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
                                 {chartData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
@@ -123,52 +123,53 @@ export const Dashboard: React.FC<DashboardProps> = ({ businessData, results }) =
         </section>
 
         {/* Technical Performance Card */}
-        <section className="bg-[#111111] rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
-             <div className="bg-[#1A1A1A] border-b border-slate-700 p-4 md:p-6 flex justify-between items-center">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    <Gauge size={20} className="text-blue-400" />
-                    Auditoria Técnica & Performance
+        <section className="bg-[#111111] rounded-xl sm:rounded-2xl shadow-sm border border-slate-700 overflow-hidden">
+             <div className="bg-[#1A1A1A] border-b border-slate-700 p-3 sm:p-4 md:p-6 flex justify-between items-center gap-2">
+                <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                    <Gauge size={18} className="text-blue-400 flex-shrink-0" />
+                    <span className="truncate">Auditoria Técnica & Performance</span>
                 </h3>
-                <span className="text-[10px] md:text-xs font-semibold bg-slate-700 text-slate-300 px-2 py-1 rounded">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-semibold bg-slate-700 text-slate-300 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex-shrink-0">
                    Análise IA
                 </span>
              </div>
 
-             <div className="p-5 md:p-8 grid md:grid-cols-3 gap-8">
+             <div className="p-4 sm:p-5 md:p-8 grid md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                  {/* Left: Score Circle */}
                  <div className="flex flex-col items-center justify-center text-center">
-                     <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full border-8 flex items-center justify-center mb-3 ${getScoreColor(results.techScore)}`}>
+                     <div className={`w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-6 sm:border-8 flex items-center justify-center mb-2 sm:mb-3 ${getScoreColor(results.techScore)}`}>
                         <div className="flex flex-col">
-                            <span className="text-2xl md:text-4xl font-black">{results.techScore}</span>
-                            <span className="text-[10px] font-bold uppercase">Tech Score</span>
+                            <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black">{results.techScore}</span>
+                            <span className="text-[9px] sm:text-[10px] font-bold uppercase">Tech Score</span>
                         </div>
                      </div>
-                     <div className="text-sm font-medium text-slate-400 flex items-center gap-1">
+                     <div className="text-xs sm:text-sm font-medium text-slate-400 flex items-center gap-1 max-w-full">
                         {results.websiteUrl ? (
-                           <a href={results.websiteUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-blue-400 truncate max-w-[150px]">
-                              <Globe size={12} /> {results.websiteUrl.replace(/^https?:\/\//, '')}
+                           <a href={results.websiteUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-blue-400 truncate max-w-[140px] sm:max-w-[150px]">
+                              <Globe size={11} className="flex-shrink-0" /> 
+                              <span className="truncate">{results.websiteUrl.replace(/^https?:\/\//, '')}</span>
                            </a>
                         ) : (
-                           <span className="text-red-400 flex items-center gap-1"><AlertOctagon size={12} /> Site não encontrado</span>
+                           <span className="text-red-400 flex items-center gap-1 text-xs sm:text-sm"><AlertOctagon size={11} className="flex-shrink-0" /> <span className="truncate">Site não encontrado</span></span>
                         )}
                      </div>
                  </div>
 
                  {/* Right: Issues List */}
-                 <div className="md:col-span-2 space-y-4">
-                    <h4 className="font-bold text-slate-300 text-sm uppercase tracking-wide flex items-center gap-2">
-                       <Zap size={16} className="text-amber-500" />
-                       Problemas Críticos Detectados
+                 <div className="md:col-span-2 space-y-3 sm:space-y-4">
+                    <h4 className="font-bold text-slate-300 text-xs sm:text-sm uppercase tracking-wide flex items-center gap-1.5 sm:gap-2">
+                       <Zap size={14} className="text-amber-500 flex-shrink-0" />
+                       <span>Problemas Críticos Detectados</span>
                     </h4>
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                        {results.techIssues && results.techIssues.map((issue, idx) => (
-                          <div key={idx} className="flex items-start gap-3 bg-red-900/20 p-3 rounded-lg border border-red-800/50">
-                             <div className="mt-0.5 bg-red-900/50 text-red-400 p-1 rounded-full shrink-0">
-                                <AlertTriangle size={14} />
+                          <div key={idx} className="flex items-start gap-2 sm:gap-3 bg-red-900/20 p-2.5 sm:p-3 rounded-lg border border-red-800/50">
+                             <div className="mt-0.5 bg-red-900/50 text-red-400 p-0.5 sm:p-1 rounded-full shrink-0">
+                                <AlertTriangle size={12} />
                              </div>
-                             <div>
-                                <p className="text-sm font-medium text-white">{issue}</p>
-                                <p className="text-xs text-slate-500 mt-0.5">Impacta diretamente a recomendação por IAs.</p>
+                             <div className="min-w-0 flex-1">
+                                <p className="text-xs sm:text-sm font-medium text-white break-words">{issue}</p>
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5">Impacta diretamente a recomendação por IAs.</p>
                              </div>
                           </div>
                        ))}
